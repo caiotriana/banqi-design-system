@@ -1,0 +1,290 @@
+// Auto-generated from tokens/export.json — do not edit directly.
+
+export const typography = {
+  fontFamily: 'DM Sans',
+  fontSize: {
+    x1: 4,
+    x2: 8,
+    x3_5: 14,
+    x3: 12,
+    x4: 16,
+    x5: 20,
+    x6: 24,
+    x7: 28,
+    x8: 32,
+    x9: 36,
+    x10: 40,
+    x11: 44,
+    x12: 48,
+    x14: 56,
+    x16: 64,
+    x18: 72,
+  },
+  fontWeight: {
+    '300': 300,
+    '400': 400,
+    '500': 500,
+    '600': 600,
+    '700': 700,
+    '800': 800,
+    '900': 900,
+  },
+  letterSpacing: {
+    '0': 0,
+    '100': 0.1,
+    '200': 0.2,
+    '400': 0.4,
+  },
+  lineHeight: {
+    x3: 12,
+    x3_5: 14,
+    x4: 16,
+    x5: 20,
+    x6: 24,
+    x8: 32,
+    x10: 40,
+    x12: 48,
+    x14: 56,
+    x16: 64,
+    x18: 72,
+    x20: 80,
+  },
+  display: {
+    large: {
+      fontFamily: 'DM Sans',
+      fontSize: 40,
+      fontWeight: 600,
+      lineHeight: 40,
+      letterSpacing: 0,
+    },
+  },
+  heading: {
+    large: {
+      fontFamily: 'DM Sans',
+      fontSize: 20,
+      fontWeight: 600,
+      lineHeight: 24,
+      letterSpacing: 0,
+    },
+    medium: {
+      fontFamily: 'DM Sans',
+      fontSize: 16,
+      fontWeight: 600,
+      lineHeight: 24,
+      letterSpacing: 0,
+    },
+    small: {
+      fontFamily: 'DM Sans',
+      fontSize: 12,
+      fontWeight: 600,
+      lineHeight: 16,
+      letterSpacing: 0.1,
+    },
+  },
+  subheading: {
+    medium: {
+      fontFamily: 'DM Sans',
+      fontSize: 16,
+      fontWeight: 400,
+      lineHeight: 20,
+      letterSpacing: 0,
+    },
+  },
+  paragraph: {
+    medium: {
+      fontFamily: 'DM Sans',
+      fontSize: 14,
+      fontWeight: 400,
+      lineHeight: 20,
+      letterSpacing: 0,
+    },
+  },
+  caption: {
+    medium: {
+      fontFamily: 'DM Sans',
+      fontSize: 14,
+      fontWeight: 400,
+      lineHeight: 16,
+      letterSpacing: 0,
+    },
+  },
+  label: {
+    xlarge: {
+      fontFamily: 'DM Sans',
+      fontSize: 32,
+      fontWeight: 600,
+      lineHeight: 32,
+      letterSpacing: 0,
+    },
+    large: {
+      fontFamily: 'DM Sans',
+      fontSize: 20,
+      fontWeight: 600,
+      lineHeight: 20,
+      letterSpacing: 0,
+    },
+    medium: {
+      fontFamily: 'DM Sans',
+      fontSize: 16,
+      fontWeight: 600,
+      lineHeight: 16,
+      letterSpacing: 0,
+    },
+    small: {
+      fontFamily: 'DM Sans',
+      fontSize: 14,
+      fontWeight: 600,
+      lineHeight: 16,
+      letterSpacing: 0,
+    },
+    xsmall: {
+      fontFamily: 'DM Sans',
+      fontSize: 12,
+      fontWeight: 600,
+      lineHeight: 14,
+      letterSpacing: 0.1,
+    },
+  },
+} as const;
+
+export const sizing = {
+  zero: 0,
+  half: 2,
+  x1: 4,
+  x2: 8,
+  x3: 12,
+  x4: 16,
+  x5: 20,
+  x6: 24,
+  x8: 32,
+  x12: 48,
+  x16: 64,
+  x20: 80,
+  x24: 96,
+  x28: 112,
+  x32: 128,
+  x36: 144,
+  x40: 160,
+} as const;
+
+export const radii = {
+  full: 999,
+  none: 0,
+  half: 2,
+  x1: 4,
+  x2: 8,
+  x3: 12,
+  x4: 16,
+  x5: 20,
+  x6: 24,
+  x8: 32,
+} as const;
+
+export const border = {
+  none: 0,
+  quarter: 1,
+  half: 2,
+  x1: 4,
+  x2: 8,
+} as const;
+
+export const opacity = {
+  '0': 0,
+  '100': 0.12,
+  '200': 0.24,
+  '300': 0.32,
+  '400': 0.4,
+  '500': 0.48,
+  '600': 0.64,
+  '700': 0.72,
+  '800': 0.8,
+  '900': 0.88,
+  '1000': 1,
+  'solid': 1,
+  'heavy': 0.88,
+  'intense': 0.64,
+  'moderate': 0.32,
+  'soft': 0.24,
+  'subtle': 0.12,
+  'transparent': 0,
+} as const;
+
+export const shadow = {
+  axis: {
+    negativeQuarter: -1.5,
+    none: 0,
+    quarter: 1.5,
+    third: 3,
+    x1: 4,
+    x3: 12,
+  },
+  spread: {
+    none: 0,
+  },
+  blur: {
+    none: 0,
+    x1: 4,
+    x2: 8,
+    x3: 12,
+    x4: 16,
+    x6: 24,
+    x16: 64,
+  },
+} as const;
+
+export const borderRadius = {
+  sharp: radii.none,
+  nano: radii.x1,
+  xsmall: radii.x2,
+  small: radii.x3,
+  medium: radii.x4,
+  large: radii.x5,
+  xlarge: radii.x6,
+  jumbo: radii.x8,
+  pill: radii.full,
+} as const;
+
+export const spacing = {
+  gap: {
+    none: sizing.zero,
+    nano: sizing.half,
+    xsmall: sizing.x1,
+    small: sizing.x2,
+    medium: sizing.x3,
+    large: sizing.x4,
+    xlarge: sizing.x5,
+  },
+  padding: {
+    none: sizing.zero,
+    quarck: sizing.half,
+    nano: sizing.x1,
+    xsmall: sizing.x2,
+    small: sizing.x3,
+    medium: sizing.x4,
+    large: sizing.x5,
+    jumbo: sizing.x8,
+  },
+  vertical: {
+    'none': sizing.zero,
+    'xsmall': sizing.x8,
+    'small': sizing.x12,
+    'medium': sizing.x16,
+    'large': sizing.x24,
+    'xlarge': sizing.x28,
+    '2xlarge': sizing.x32,
+    '3xlarge': sizing.x36,
+    'jumbo': sizing.x40,
+  },
+  horizontal: {
+    none: sizing.zero,
+    xsmall: sizing.x6,
+    small: sizing.x8,
+    medium: sizing.x12,
+    large: sizing.x16,
+  },
+} as const;
+
+export const iconSize = {
+  medium: sizing.x6,
+  small: sizing.x4,
+} as const;
