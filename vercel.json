@@ -1,5 +1,6 @@
 {
-  "buildCommand": "",
+  "framework": null,
+  "buildCommand": "echo 'pre-built'",
   "outputDirectory": "storybook-static",
   "installCommand": "echo 'skip'"
 }
