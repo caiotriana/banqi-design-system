@@ -31,22 +31,20 @@ export function getVariantTokens(
 
   const map: Record<IconButtonVariant, VariantTokens> = {
     'primary': {
-      backgroundColor: theme.surface.accent.primary,
+      backgroundColor: theme.surface.accent.primaryPersistent,
       iconColor: theme.content.common.onColor,
       borderColor: 'transparent',
       borderWidth: border.none,
     },
     'secondary': {
-      // Figma: #D1DFFA = surface.accent.primarySubtleOnSubtle
       backgroundColor: theme.surface.accent.primarySubtleOnSubtle,
-      iconColor: theme.content.accent.primary,
-      // Figma: stroke rgba(0,51,198,0.12) = stroke.default, strokeWeight: 1px
+      iconColor: theme.content.accent.primaryPersistent,
       borderColor: theme.stroke.default,
-      borderWidth: border.quarter, // 1px
+      borderWidth: border.quarter,
     },
     'ghost': {
       backgroundColor: theme.surface.common.ghost,
-      iconColor: theme.content.accent.primary,
+      iconColor: theme.content.accent.primaryPersistent,
       borderColor: 'transparent',
       borderWidth: border.none,
     },
@@ -58,7 +56,7 @@ export function getVariantTokens(
     },
     'oncolor': {
       backgroundColor: theme.surface.common.onColor,
-      iconColor: theme.content.accent.primary,
+      iconColor: theme.content.accent.primaryPersistent,
       borderColor: 'transparent',
       borderWidth: border.none,
     },

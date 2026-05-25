@@ -137,6 +137,7 @@ export function Toggle({
               baseStyles.knob,
               {
                 backgroundColor: tokens.knobColor,
+                opacity: tokens.knobOpacity,
                 transform: [{ translateX: knobTranslateX }],
               },
             ]}

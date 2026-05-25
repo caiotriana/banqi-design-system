@@ -110,6 +110,7 @@ export const baseStyles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'flex-start',
     borderRadius: BADGE_RADIUS,
+    minHeight: sizing.x5,
   },
   /** Sem dot — layout_GHFHUX: padding 2px 4px, gap 4px */
   badgeWithoutDot: {

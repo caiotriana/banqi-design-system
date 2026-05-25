@@ -16,6 +16,78 @@ import {
   type ColorTheme,
 } from 'banqi-tokens/rn';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
+// ─── Built-in icons ──────────────────────────────────────────────────────────
+function ClearIcon({ color }: { color: string }) {
+  return (
+    <View style={iconStyles.clearContainer}>
+      <View style={[iconStyles.clearLine1, { backgroundColor: color }]} />
+      <View style={[iconStyles.clearLine2, { backgroundColor: color }]} />
+    </View>
+  );
+}
+function SuccessIcon({ color }: { color: string }) {
+  return (
+    <View style={iconStyles.feedbackContainer}>
+      <View
+        style={{
+          width: 9,
+          height: 5,
+          borderLeftWidth: 2,
+          borderBottomWidth: 2,
+          borderColor: color,
+          transform: [{ rotate: '-45deg' }],
+          marginTop: -1,
+        }}
+      />
+    </View>
+  );
+}
+function ErrorIcon({ color }: { color: string }) {
+  return (
+    <View
+      style={[
+        iconStyles.feedbackContainer,
+        { borderRadius: sizing.x3, borderWidth: 1.5, borderColor: color },
+      ]}
+    >
+      <View
+        style={{
+          width: 1.5,
+          height: 8,
+          backgroundColor: color,
+          borderRadius: 1,
+        }}
+      />
+      <View
+        style={{
+          width: 2,
+          height: 2,
+          backgroundColor: color,
+          borderRadius: 1,
+          marginTop: 1.5,
+        }}
+      />
+    </View>
+  );
+}
+function WarningIcon({ color }: { color: string }) {
+  return (
+    <View style={iconStyles.feedbackContainer}>
+      <View
+        style={{
+          width: 0,
+          height: 0,
+          borderLeftWidth: 10,
+          borderRightWidth: 10,
+          borderBottomWidth: 18,
+          borderLeftColor: 'transparent',
+          borderRightColor: 'transparent',
+          borderBottomColor: color,
+        }}
+      />
+    </View>
+  );
+}
 // ─── Types ────────────────────────────────────────────────────────────────────
 export type InputTextSize = 'default' | 'large';
 export type InputTextState =
@@ -130,11 +202,30 @@ export function InputText({
   const [focused, setFocused] = useState(false);
   // RN 0.85: TextInput's ref type (_TextInputInstance) is not directly importable
   const inputRef = useRef<any>(null);
+  const [internalValue, setInternalValue] = useState('');
   const isDisabled = state === 'disabled';
   const isReadOnly = state === 'readOnly';
   const isEditable = !isDisabled && !isReadOnly;
   const isLarge = size === 'large';
   const tokens = getStateTokens(theme, state, focused);
+  const currentValue = rest.value ?? internalValue;
+  const hasValue = typeof currentValue === 'string' && currentValue.length > 0;
+  const feedbackIcons: Partial<Record<InputTextState, React.ReactNode>> = {
+    success: <SuccessIcon color={tokens.hintColor} />,
+    error: <ErrorIcon color={tokens.hintColor} />,
+    warning: <WarningIcon color={tokens.hintColor} />,
+  };
+  const builtInTrailing = feedbackIcons[state] ?? null;
+  const showClear = hasValue && isEditable && state === 'default' && !trailingIcon;
+  function handleChangeText(text: string) {
+    setInternalValue(text);
+    rest.onChangeText?.(text);
+  }
+  function handleClear() {
+    handleChangeText('');
+    inputRef.current?.clear();
+    inputRef.current?.focus();
+  }
   // Figma:
   //   Elevation/Enabled  = 0px  1.5px  (padrão)
   //   Elevation/Active   = 0px -1.5px  (inset — focado)
@@ -212,6 +303,7 @@ export function InputText({
           <TextInput
             ref={inputRef}
             {...rest}
+            onChangeText={handleChangeText}
             placeholderTextColor={
               placeholderTextColor ?? tokens.placeholderColor
             }
@@ -234,8 +326,22 @@ export function InputText({
               },
             ]}
           />
+          {showClear && (
+            <Pressable
+              onPress={handleClear}
+              accessible
+              accessibilityRole="button"
+              accessibilityLabel="Limpar campo"
+              style={styles.slot}
+            >
+              <ClearIcon color={theme.content.subtle} />
+            </Pressable>
+          )}
           {trailingIcon != null && (
             <View style={styles.slot}>{trailingIcon}</View>
+          )}
+          {!trailingIcon && builtInTrailing != null && (
+            <View style={styles.slot}>{builtInTrailing}</View>
           )}
         </Pressable>
       </View>
@@ -291,7 +397,8 @@ const styles = StyleSheet.create({
   inputText: {
     fontFamily: typography.fontFamily,
     fontWeight: '600',
-    padding: 0, // remove o padding default do TextInput no Android
+    padding: 0,
+    borderWidth: 0,
     includeFontPadding: false,
   },
   inputFlex: {
@@ -312,5 +419,33 @@ const styles = StyleSheet.create({
     fontSize: typography.fontSize.x3_5, // 14px
     lineHeight: typography.lineHeight.x5, // 20px
     includeFontPadding: false,
+  },
+});
+const iconStyles = StyleSheet.create({
+  clearContainer: {
+    width: sizing.x5,
+    height: sizing.x5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  clearLine1: {
+    position: 'absolute',
+    width: sizing.x3,
+    height: 1.5,
+    borderRadius: 1,
+    transform: [{ rotate: '45deg' }],
+  },
+  clearLine2: {
+    position: 'absolute',
+    width: sizing.x3,
+    height: 1.5,
+    borderRadius: 1,
+    transform: [{ rotate: '-45deg' }],
+  },
+  feedbackContainer: {
+    width: sizing.x5,
+    height: sizing.x5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });

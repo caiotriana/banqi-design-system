@@ -117,7 +117,7 @@ export function Shortcut({
         <View style={baseStyles.bottom}>
           <Text
             style={[baseStyles.title, { color: tokens.titleColor }]}
-            numberOfLines={1}
+            numberOfLines={2}
           >
             {title}
           </Text>
@@ -127,7 +127,7 @@ export function Shortcut({
                 baseStyles.description,
                 { color: tokens.descriptionColor },
               ]}
-              numberOfLines={1}
+              numberOfLines={2}
             >
               {description}
             </Text>

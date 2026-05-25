@@ -57,14 +57,14 @@ function getVariantTokens(
 ): VariantTokens {
   const map: Record<ButtonVariant, VariantTokens> = {
     primary: {
-      background: theme.surface.accent.primary,
+      background: theme.surface.accent.primaryPersistent,
       label: theme.content.common.onColor,
       loaderColor: theme.content.common.onColor,
     },
     onColor: {
       background: theme.surface.common.onColor,
-      label: theme.content.accent.primary,
-      loaderColor: theme.content.accent.primary,
+      label: theme.content.accent.primaryPersistent,
+      loaderColor: theme.content.accent.primaryPersistent,
     },
     critical: {
       background: theme.surface.feedback.critical,
@@ -73,15 +73,15 @@ function getVariantTokens(
     },
     secondary: {
       background: theme.surface.accent.primarySubtleOnSubtle,
-      label: theme.content.accent.primary,
+      label: theme.content.accent.primaryPersistent,
       borderColor: theme.stroke.default,
       borderWidth: border.quarter,
-      loaderColor: theme.content.accent.primary,
+      loaderColor: theme.content.accent.primaryPersistent,
     },
     ghost: {
       background: theme.surface.common.ghost,
-      label: theme.content.accent.primary,
-      loaderColor: theme.content.accent.primary,
+      label: theme.content.accent.primaryPersistent,
+      loaderColor: theme.content.accent.primaryPersistent,
     },
     criticalGhost: {
       background: theme.surface.common.ghost,
@@ -125,7 +125,8 @@ export function Button({
   //   Elevation/Enabled  = 0px  1.5px 0px 0px rgba(cobalt, 0.32)
   //   Elevation/Pressed  = 0px -1.5px 0px 0px rgba(cobalt, 0.32)  ← inset
   //   Elevation/Loading / Disabled = sem sombra
-  const hasElevation = isInteractive;
+  const isGhost = variant === 'ghost' || variant === 'criticalGhost';
+  const hasElevation = isInteractive && !isGhost;
   const shadowHeight = pressed ? -shadow.axis.quarter : shadow.axis.quarter;
   return (
     <View

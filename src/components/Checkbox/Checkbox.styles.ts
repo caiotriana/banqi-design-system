@@ -124,9 +124,9 @@ export function getCheckboxTokens(
   return {
     boxBg: checked ? theme.surface.accent.primary : theme.surface.default,
     boxBorderColor: checked
-      ? theme.stroke.accent.primary // fill_RMPZJ9 = #0033C6
+      ? 'transparent'
       : theme.stroke.default, // fill_A47LNJ = rgba(0,51,198,0.12)
-    boxBorderWidth: border.quarter, // strokeWeight: 1px
+    boxBorderWidth: checked ? border.none : border.quarter,
     checkmarkColor: checked
       ? theme.content.common.onColor // #FFFFFF
       : null,

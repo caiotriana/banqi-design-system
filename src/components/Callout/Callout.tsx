@@ -105,10 +105,10 @@ export function Callout({
             accessibilityLabel={actionLabel}
             style={baseStyles.linkAction}
           >
-            <Text style={[baseStyles.linkText, { color: tokens.textColor }]}>
+            <Text style={[baseStyles.linkText, { color: tokens.linkColor }]}>
               {actionLabel}
             </Text>
-            <ArrowIcon color={tokens.textColor} />
+            <ArrowIcon color={tokens.linkColor} />
           </Pressable>
         )}
       </View>

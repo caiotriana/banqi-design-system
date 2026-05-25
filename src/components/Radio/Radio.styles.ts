@@ -122,7 +122,7 @@ export function getRadioTokens(
       : theme.stroke.default, // fill_Y1WC1E = rgba(0,51,198,0.12)
     boxBorderWidth: border.quarter, // strokeWeight: 1px
     dotColor: selected
-      ? theme.content.accent.primary // fill_K9K26N = #0033C6
+      ? theme.content.accent.primaryPersistent
       : null,
     overlayColor: null,
     labelColor: theme.content.default, // fill_LZFWU3 = #191E2F
@@ -159,6 +159,7 @@ export const baseStyles = StyleSheet.create({
     width: DOT_SIZE,
     height: DOT_SIZE,
     borderRadius: radii.full, // 999px — círculo
+    zIndex: 1,
   },
   /** Overlay absoluto para estados hover/pressed */
   overlay: {

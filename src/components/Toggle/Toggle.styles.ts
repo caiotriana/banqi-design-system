@@ -3,6 +3,7 @@ import {
   radii,
   sizing,
   border,
+  opacity,
   typography,
   type ColorTheme,
 } from 'banqi-tokens/rn';
@@ -47,6 +48,8 @@ export type ToggleTokens = {
   trackBorderWidth: number;
   /** Cor do knob */
   knobColor: string;
+  /** Opacidade do knob */
+  knobOpacity: number;
   /**
    * Cor do overlay de estado (hover/pressed).
    * `null` = sem overlay.
@@ -80,6 +83,7 @@ export function getToggleTokens(
       trackBorderColor: enabled ? 'transparent' : theme.stroke.common.disabled, // fill_D62JC1 = #D9D9D9
       trackBorderWidth: enabled ? border.none : border.quarter,
       knobColor: theme.content.common.disabled, // #9E9E9E
+      knobOpacity: opacity.solid,
       overlayColor: null,
       labelColor: theme.content.common.disabled, // fill_HUQCTF = #9E9E9E
       hasShadow: false, // Elevation/Disabled = 0,0,0,0
@@ -100,6 +104,7 @@ export function getToggleTokens(
       knobColor: enabled
         ? theme.content.common.onColor // fill_HSRWFI = #FFFFFF
         : theme.content.accent.primary, // fill_FUX60S = #0033C6
+      knobOpacity: opacity.intense,
       overlayColor: theme.surface.common.pressed, // fill_JIQM8T = rgba(255,255,255,0.32)
       labelColor: theme.content.default,
       hasShadow: true, // Elevation/Pressed: 0px -1.5px
@@ -118,6 +123,7 @@ export function getToggleTokens(
       knobColor: enabled
         ? theme.content.common.onColor
         : theme.content.accent.primary,
+      knobOpacity: opacity.intense,
       overlayColor: theme.surface.common.hover, // fill_22H0M3 = rgba(255,255,255,0.24)
       labelColor: theme.content.default,
       hasShadow: true, // Elevation/Hover: 0px 3px
@@ -137,6 +143,7 @@ export function getToggleTokens(
     knobColor: enabled
       ? theme.content.common.onColor // fill_HSRWFI = #FFFFFF
       : theme.content.accent.primary, // fill_FUX60S = #0033C6
+    knobOpacity: opacity.intense,
     overlayColor: null,
     labelColor: theme.content.default,
     hasShadow: true, // Elevation/Enabled: 0px 1.5px

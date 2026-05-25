@@ -2,6 +2,8 @@
 
 import { lightPalette, darkPalette } from './palette';
 
+import { border, shadow, sizing, radii } from './base';
+
 export type ColorTheme = {
   background: {
     default: string;

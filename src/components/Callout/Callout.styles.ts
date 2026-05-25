@@ -36,8 +36,10 @@ export type CalloutTokens = {
   bg: string;
   /** Cor da borda (Actionable=True) */
   borderColor: string;
-  /** Cor do texto (title, description e link action) */
+  /** Cor do texto (title, description) */
   textColor: string;
+  /** Cor do link action — accent primary na variante standard */
+  linkColor: string;
   /** Sombra Elevation/Enabled (Actionable=True) */
   shadowColor: string;
 };
@@ -59,6 +61,7 @@ export function getCalloutTokens(
         bg: theme.surface.accent.primarySuperSubtle, // cobalt['50'] = #F6F9FE
         borderColor: theme.stroke.default, // rgba(0,51,198,0.12)
         textColor: theme.content.default, // #191E2F
+        linkColor: theme.content.accent.primary,
         shadowColor: theme.elevation.default, // rgba(0,51,198,0.32)
       };
 
@@ -70,6 +73,7 @@ export function getCalloutTokens(
         bg: theme.surface.feedback.infoSubtle, // mariner['200'] = #EDF5FD
         borderColor: theme.stroke.feedback.infoSubtle, // mariner['400'] = #D1E6FA
         textColor: theme.content.feedback.info, // mariner['800'] = #1466B8
+        linkColor: theme.content.feedback.info,
         shadowColor: theme.elevation.default,
       };
 
@@ -81,6 +85,7 @@ export function getCalloutTokens(
         bg: theme.surface.feedback.successSubtle, // forestGreen['200'] = #F2F9F0
         borderColor: theme.stroke.feedback.successSubtle, // forestGreen['400'] = #DEF1DA
         textColor: theme.content.feedback.success, // forestGreen['700'] = #1E730D
+        linkColor: theme.content.feedback.success,
         shadowColor: theme.elevation.default,
       };
 
@@ -92,6 +97,7 @@ export function getCalloutTokens(
         bg: theme.surface.feedback.warningSubtle, // bronze['200'] = #FDF7ED
         borderColor: theme.stroke.feedback.warningSubtle, // bronze['400'] = #FAEBD1
         textColor: theme.content.feedback.warning, // bronze['900'] = #8F5F10
+        linkColor: theme.content.feedback.warning,
         shadowColor: theme.elevation.default,
       };
 
@@ -103,6 +109,7 @@ export function getCalloutTokens(
         bg: theme.surface.feedback.criticalSubtle, // cardinal['200'] = #FDEDEF
         borderColor: theme.stroke.feedback.criticalSubtle, // cardinal['400'] = #FAD1D7
         textColor: theme.content.feedback.critical, // cardinal['800'] = #CE1732
+        linkColor: theme.content.feedback.critical,
         shadowColor: theme.elevation.default,
       };
   }
