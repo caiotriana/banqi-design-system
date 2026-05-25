@@ -73,15 +73,15 @@ function getVariantTokens(
     },
     secondary: {
       background: theme.surface.accent.primarySubtleOnSubtle,
-      label: theme.content.accent.primaryPersistent,
+      label: theme.content.accent.primary,
       borderColor: theme.stroke.default,
       borderWidth: border.quarter,
-      loaderColor: theme.content.accent.primaryPersistent,
+      loaderColor: theme.content.accent.primary,
     },
     ghost: {
       background: theme.surface.common.ghost,
-      label: theme.content.accent.primaryPersistent,
-      loaderColor: theme.content.accent.primaryPersistent,
+      label: theme.content.accent.primary,
+      loaderColor: theme.content.accent.primary,
     },
     criticalGhost: {
       background: theme.surface.common.ghost,

@@ -1,6 +1,5 @@
-import{j as e}from"./jsx-runtime-D_zvdyIk.js";import"./index-wjN1KwZK.js";import{V as a,T as m,w as n}from"./base-m3uPMzji.js";import{B as o}from"./Badge-DpLDAuLx.js";import{u as v}from"./ThemeProvider-D24FPcro.js";const F={title:"Components/Badge",component:o,tags:["autodocs"],decorators:[t=>e.jsx(a,{style:{alignItems:"flex-start"},children:e.jsx(t,{})})],parameters:{docs:{description:{component:`
+import{j as e}from"./jsx-runtime-D_zvdyIk.js";import{V as a,T as m,x as n}from"./base-DPM9NSJ_.js";import{B as o}from"./Badge-C6n5csGF.js";import{u as v}from"./ThemeProvider-D24FPcro.js";import"./index-wjN1KwZK.js";const F={title:"Components/Badge",component:o,tags:["autodocs"],decorators:[t=>e.jsx(a,{style:{alignItems:"flex-start"},children:e.jsx(t,{})})],parameters:{docs:{description:{component:`
 Componente Badge do Design System Banqi, mapeado 1:1 com o Figma **Casas Bahia Pay — Design System** (node 795-754).
-
 Suporta **6 variantes** (highlight, neutral, accent, success, warning, critical) × **estado disabled**,
 com dot de status opcional. Componente puramente visual — sem interação.
 Consome tokens via \`useTheme()\`.
