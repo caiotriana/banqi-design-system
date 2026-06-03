@@ -54,7 +54,7 @@ divergirem, alinhe os dois — não trate a divergência como detalhe.
 | `Checkbox` | Formulário | Caixa de seleção com rótulo | [checkbox](components/checkbox.md) |
 | `Radio` | Formulário | Botão de opção única com rótulo | [radio](components/radio.md) |
 | `Toggle` | Formulário | Interruptor on/off com rótulo | [toggle](components/toggle.md) |
-| `Avatar` | Exibição | Iniciais, ícone, imagem ou logo; com skeleton | [avatar](components/avatar.md) |
+| `Avatar` | Exibição | Iniciais, ícone, imagem ou logo | [avatar](components/avatar.md) |
 | `Badge` | Exibição | Etiqueta compacta de status, com ponto opcional | [badge](components/badge.md) |
 | `Callout` | Feedback | Cartão de mensagem com ação e fechar | [callout](components/callout.md) |
 | `Shortcut` | Navegação | Cartão de atalho com título/descrição/slots | [shortcut](components/shortcut.md) |

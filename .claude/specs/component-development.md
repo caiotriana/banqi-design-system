@@ -178,7 +178,7 @@ Crie `<Nome>.test.tsx` cobrindo as **capacidades** do componente conforme o
 [padrão de cobertura](testing.md#padrão-de-cobertura-por-capacidade):
 base (smoke/conteúdo/role+rótulo/claro+escuro) e, conforme o caso, ação, gating de
 `disabled`, estado booleano, variantes, entrada de texto, slots opcionais,
-loading/skeleton. Renderize sempre via `renderWithTheme`.
+loading. Renderize sempre via `renderWithTheme`.
 
 ---
 

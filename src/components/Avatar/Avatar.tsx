@@ -1,5 +1,4 @@
-import { useRef, useEffect } from 'react';
-import { Animated, Image } from 'react-native';
+import { Image, Text, View } from 'react-native';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
 import { getSizeTokens, getVisualTokens, baseStyles } from './Avatar.styles';
 import type { AvatarProps } from './Avatar.types';
@@ -17,34 +16,7 @@ export function Avatar({
   const { theme } = useTheme();
   const sizeTokens = getSizeTokens(size);
   const visualTokens = getVisualTokens(theme, variant, state);
-  const skeletonAnim = useRef(new Animated.Value(1)).current;
-  useEffect(() => {
-    if (state === 'skeleton') {
-      const loop = Animated.loop(
-        Animated.sequence([
-          Animated.timing(skeletonAnim, {
-            toValue: 0.35,
-            duration: 700,
-            useNativeDriver: true,
-          }),
-          Animated.timing(skeletonAnim, {
-            toValue: 1,
-            duration: 700,
-            useNativeDriver: true,
-          }),
-        ])
-      );
-      loop.start();
-      return () => loop.stop();
-    } else {
-      skeletonAnim.setValue(1);
-    }
-    return undefined;
-  }, [state, skeletonAnim]);
   function renderContent() {
-    if (state === 'skeleton') {
-      return null;
-    }
     switch (variant) {
       case 'image':
         return (
@@ -75,7 +47,7 @@ export function Avatar({
       case 'initials':
       default:
         return (
-          <Animated.Text
+          <Text
             style={[
               baseStyles.initials,
               {
@@ -87,7 +59,7 @@ export function Avatar({
             numberOfLines={1}
           >
             {initials.slice(0, 2).toUpperCase()}
-          </Animated.Text>
+          </Text>
         );
     }
   }
@@ -98,18 +70,14 @@ export function Avatar({
     backgroundColor: visualTokens.bg,
   };
   return (
-    <Animated.View
+    <View
       accessible
       accessibilityRole="image"
       accessibilityLabel={accessibilityLabel ?? `Avatar ${variant}`}
       testID={testID}
-      style={[
-        baseStyles.container,
-        containerStyle,
-        state === 'skeleton' && { opacity: skeletonAnim },
-      ]}
+      style={[baseStyles.container, containerStyle]}
     >
       {renderContent()}
-    </Animated.View>
+    </View>
   );
 }

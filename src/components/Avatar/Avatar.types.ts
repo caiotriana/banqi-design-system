@@ -5,7 +5,7 @@ export type AvatarVariant = 'icon' | 'initials' | 'image' | 'logo';
 
 export type AvatarSize = 'small' | 'standard' | 'large';
 
-export type AvatarState = 'enabled' | 'disabled' | 'skeleton';
+export type AvatarState = 'enabled' | 'disabled';
 
 export interface AvatarProps {
   variant?: AvatarVariant;

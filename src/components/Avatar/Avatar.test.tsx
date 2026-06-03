@@ -17,11 +17,4 @@ describe('Avatar', () => {
     );
     expect(screen.getByLabelText('Caio Triana')).toBeTruthy();
   });
-
-  it('não renderiza conteúdo no estado skeleton', () => {
-    renderWithTheme(
-      <Avatar variant="initials" initials="CT" state="skeleton" />
-    );
-    expect(screen.queryByText('CT')).toBeNull();
-  });
 });

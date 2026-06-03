@@ -36,7 +36,7 @@ function PlaceholderIcon({
 }
 const VARIANTS: AvatarVariant[] = ['initials', 'icon', 'image', 'logo'];
 const SIZES: AvatarSize[] = ['small', 'standard', 'large'];
-const STATES: AvatarState[] = ['enabled', 'disabled', 'skeleton'];
+const STATES: AvatarState[] = ['enabled', 'disabled'];
 const meta: Meta<typeof Avatar> = {
   title: 'Components/Avatar',
   component: Avatar,

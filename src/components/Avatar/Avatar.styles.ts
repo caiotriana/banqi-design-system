@@ -82,9 +82,6 @@ export const baseStyles = StyleSheet.create({
     justifyContent: 'center',
     overflow: 'hidden',
   },
-  skeletonOverlay: {
-    ...StyleSheet.absoluteFill,
-  },
   image: {
     width: '100%',
     height: '100%',

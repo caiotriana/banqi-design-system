@@ -125,10 +125,9 @@ de ação (`onPress`/`onChange`/…); `<estado>` = prop booleana de estado
   fechar/limpar, descrição, fileiras opcionais, etc.
 - `<slot>` interativo (fechar/limpar/ação) dispara o **próprio** callback ao tocar.
 
-### H. Carregamento / skeleton — possui esses estados
+### H. Carregamento (loading) — possui esse estado
 - **Loading:** `accessibilityState.busy === true` (e `disabled === false`, se loading
   ≠ disabled); a ação fica bloqueada.
-- **Skeleton:** não renderiza o conteúdo (`queryBy… === null`).
 
 ### Matriz capacidade × caso mínimo
 
@@ -141,7 +140,7 @@ de ação (`onPress`/`onChange`/…); `<estado>` = prop booleana de estado
 | E. Variantes/tamanhos | cada valor da união renderiza sem quebrar |
 | F. Entrada de texto | `onChangeText` dispara · `editable` por estado |
 | G. Slots opcionais | aparece só com a prop · callback do slot |
-| H. Loading/skeleton | `busy`/ação bloqueada · skeleton sem conteúdo |
+| H. Loading | `busy`/ação bloqueada |
 
 ---
 
