@@ -136,6 +136,7 @@ export function Button({
         onPress={isInteractive ? onPress : undefined}
         onPressIn={isInteractive ? handlePressIn : undefined}
         onPressOut={isInteractive ? handlePressOut : undefined}
+        disabled={isDisabled}
         accessibilityRole="button"
         accessibilityState={{ disabled: isDisabled, busy: isLoading }}
         accessibilityLabel={label}
