@@ -2,8 +2,7 @@
   "compilerOptions": {
     "rootDir": ".",
     "paths": {
-      "banqi-design-system": ["./src/index"],
-      "banqi-tokens/rn": ["./src/tokens/index"]
+      "banqi-design-system": ["./src/index"]
     },
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,

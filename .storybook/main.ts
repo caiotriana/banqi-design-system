@@ -18,9 +18,6 @@ const config: StorybookConfig = {
       resolve: {
         alias: {
           'react-native': 'react-native-web',
-          'banqi-tokens/rn': fileURLToPath(
-            new URL('../src/tokens/index.ts', import.meta.url)
-          ),
         },
         extensions: [
           '.web.tsx',
@@ -32,6 +29,13 @@ const config: StorybookConfig = {
           '.jsx',
           '.js',
         ],
+      },
+      server: {
+        fs: {
+          // `banqi-tokens` is linked via a portal symlink to a sibling folder
+          // outside this project; allow Vite's dev server to read it.
+          allow: [fileURLToPath(new URL('../..', import.meta.url))],
+        },
       },
     }),
 };
