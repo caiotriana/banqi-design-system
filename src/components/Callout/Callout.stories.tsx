@@ -1,35 +1,14 @@
 import { useState } from 'react';
-import { View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import type { Meta, StoryObj } from '@storybook/react';
 import { typography } from 'banqi-tokens/rn';
 import { Callout } from './Callout';
 import type { CalloutVariant } from './Callout.types';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
-// Substitua pelo seu sistema de ícones real
 function PlaceholderIcon({ color = '#191E2F' }: { color?: string }) {
   return (
-    <View
-      style={{
-        width: 20,
-        height: 20,
-        borderRadius: 10,
-        borderWidth: 2,
-        borderColor: color,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
-      <Text
-        style={{
-          fontFamily: typography.fontFamily,
-          fontWeight: '700',
-          fontSize: 10,
-          color,
-          lineHeight: 12,
-        }}
-      >
-        i
-      </Text>
+    <View style={[styles.placeholderIcon, { borderColor: color }]}>
+      <Text style={[styles.placeholderText, { color }]}>i</Text>
     </View>
   );
 }
@@ -53,36 +32,11 @@ const meta: Meta<typeof Callout> = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <View style={{ alignItems: 'flex-start' }}>
+      <View style={styles.decorator}>
         <Story />
       </View>
     ),
   ],
-  parameters: {
-    docs: {
-      description: {
-        component: `
-Componente Callout do Design System Banqi, mapeado 1:1 com o Figma **Casas Bahia Pay — Design System** (node 797-1970).
-Suporta **5 variantes** (standard, info, success, attention, critical) × **actionable** × **closable**.
-- **Actionable=False**: sem borda, sem sombra
-- **Actionable=True** (quando \`actionLabel\` fornecido): ganha borda variant-specific e Elevation/Enabled
-O slot \`icon\` é **composable** — aceita qualquer ReactNode.
-\`\`\`tsx
-import { Callout } from '../Callout';
-<Callout
-  variant="info"
-  title="Atenção"
-  description="Sua senha expira em 3 dias."
-  icon={<InfoIcon size={20} />}
-  actionLabel="Alterar senha"
-  onActionPress={() => navigate('change-password')}
-  onClose={() => dismiss()}
-/>
-\`\`\`
-`,
-      },
-    },
-  },
   argTypes: {
     variant: {
       control: 'select',
@@ -116,35 +70,18 @@ export const Playground: Story = {
     />
   ),
 };
-// ─── All Variants With Icon ───────────────────────────────────────────────────
 function SectionTitle({ text }: { text: string }) {
   const { theme } = useTheme();
   return (
-    <Text
-      style={{
-        fontFamily: typography.fontFamily,
-        fontSize: typography.fontSize.x3,
-        fontWeight: '700',
-        color: theme.content.default,
-        marginBottom: 8,
-      }}
-    >
+    <Text style={[styles.sectionTitle, { color: theme.content.default }]}>
       {text}
     </Text>
   );
 }
 export const AllVariantsWithIcon: Story = {
   name: 'All Variants',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Todas as variantes com ícone (Actionable=False). O ícone usa a cor do texto da variante.',
-      },
-    },
-  },
   render: () => (
-    <View style={{ gap: 12 }}>
+    <View style={styles.group}>
       <SectionTitle text="Actionable=False / With Icon" />
       {VARIANTS.map((variant) => (
         <Callout
@@ -158,19 +95,10 @@ export const AllVariantsWithIcon: Story = {
     </View>
   ),
 };
-// ─── All Variants Actionable ──────────────────────────────────────────────────
 export const AllVariantsActionable: Story = {
   name: 'All Variants Actionable',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Todas as variantes com actionLabel (Actionable=True). Ganha borda variant-specific e Elevation/Enabled.',
-      },
-    },
-  },
   render: () => (
-    <View style={{ gap: 12 }}>
+    <View style={styles.group}>
       <SectionTitle text="Actionable=True" />
       {VARIANTS.map((variant) => (
         <Callout
@@ -186,19 +114,10 @@ export const AllVariantsActionable: Story = {
     </View>
   ),
 };
-// ─── Without Title ────────────────────────────────────────────────────────────
 export const WithoutTitle: Story = {
   name: 'Without Title',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Callout sem título (Title=False no Figma) — apenas a descrição é exibida.',
-      },
-    },
-  },
   render: () => (
-    <View style={{ gap: 12 }}>
+    <View style={styles.group}>
       {VARIANTS.map((variant) => (
         <Callout
           key={variant}
@@ -210,16 +129,8 @@ export const WithoutTitle: Story = {
     </View>
   ),
 };
-// ─── Closable ─────────────────────────────────────────────────────────────────
 export const Closable: Story = {
   name: 'Closable',
-  parameters: {
-    docs: {
-      description: {
-        story: 'Fornecendo `onClose`, o botão × aparece à direita.',
-      },
-    },
-  },
   render: () => {
     const [visible, setVisible] = useState(true);
     return visible ? (
@@ -231,28 +142,14 @@ export const Closable: Story = {
         onClose={() => setVisible(false)}
       />
     ) : (
-      <Text
-        style={{
-          fontFamily: typography.fontFamily,
-          fontSize: 14,
-          color: '#9E9E9E',
-        }}
-      >
+      <Text style={styles.closedText}>
         Callout fechado. Recarregue a story para ver novamente.
       </Text>
     );
   },
 };
-// ─── Full Combo ───────────────────────────────────────────────────────────────
 export const FullCombo: Story = {
   name: 'Full Combo (Actionable + Closable)',
-  parameters: {
-    docs: {
-      description: {
-        story: 'Callout com ícone, actionLabel e botão fechar simultaneamente.',
-      },
-    },
-  },
   render: () => {
     const [visible, setVisible] = useState(true);
     return visible ? (
@@ -266,56 +163,36 @@ export const FullCombo: Story = {
         onClose={() => setVisible(false)}
       />
     ) : (
-      <Text
-        style={{
-          fontFamily: typography.fontFamily,
-          fontSize: 14,
-          color: '#9E9E9E',
-        }}
-      >
-        Callout fechado.
-      </Text>
+      <Text style={styles.closedText}>Callout fechado.</Text>
     );
   },
 };
-// ─── In Context ───────────────────────────────────────────────────────────────
-export const InContext: Story = {
-  name: 'In Context',
-  parameters: {
-    docs: {
-      description: {
-        story: 'Exemplo de uso real: callouts em tela de pagamento.',
-      },
-    },
+const styles = StyleSheet.create({
+  decorator: { alignItems: 'flex-start' },
+  placeholderIcon: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  render: () => {
-    const [showWarning, setShowWarning] = useState(true);
-    return (
-      <View style={{ gap: 16, padding: 16 }}>
-        <Callout
-          variant="success"
-          title="Pagamento confirmado"
-          description="Seu Pix de R$ 150,00 foi enviado com sucesso."
-          icon={<PlaceholderIcon color={ICON_COLORS.success} />}
-          onClose={() => {}}
-        />
-        {showWarning && (
-          <Callout
-            variant="attention"
-            title="Limite atingido"
-            description="Você está próximo do limite diário de transferências."
-            icon={<PlaceholderIcon color={ICON_COLORS.attention} />}
-            actionLabel="Aumentar limite"
-            onActionPress={() => {}}
-            onClose={() => setShowWarning(false)}
-          />
-        )}
-        <Callout
-          variant="info"
-          description="Transações Pix ficam disponíveis em até 10 minutos."
-          icon={<PlaceholderIcon color={ICON_COLORS.info} />}
-        />
-      </View>
-    );
+  placeholderText: {
+    fontFamily: typography.fontFamily,
+    fontWeight: '700',
+    fontSize: 10,
+    lineHeight: 12,
   },
-};
+  sectionTitle: {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize.x3,
+    fontWeight: '700',
+    marginBottom: 8,
+  },
+  group: { gap: 12 },
+  closedText: {
+    fontFamily: typography.fontFamily,
+    fontSize: 14,
+    color: '#9E9E9E',
+  },
+});

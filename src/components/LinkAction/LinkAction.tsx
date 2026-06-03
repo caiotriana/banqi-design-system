@@ -8,27 +8,17 @@ import {
 } from 'react-native';
 import { sizing, typography, type ColorTheme } from 'banqi-tokens/rn';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
-// ─── Types ────────────────────────────────────────────────────────────────────
 export type LinkActionSize = 'standard' | 'large';
 export interface LinkActionProps extends Omit<
   PressableProps,
   'disabled' | 'style' | 'children'
 > {
-  /** Texto do link */
   label: string;
-  /** Tamanho: standard (14px / 16×16px icon) ou large (16px / 20×20px icon) */
   size?: LinkActionSize;
-  /**
-   * Exibido sobre fundo colorido/escuro — usa tokens onColor (branco).
-   * Mapeia a prop OnColor=True do Figma.
-   */
   onColor?: boolean;
-  /** Desativa interação e aplica estilo disabled */
   disabled?: boolean;
-  /** Ícone trailing (ReactNode). Padrão: seta ↗ para indicar link externo */
   icon?: React.ReactNode;
 }
-// ─── Token helpers ────────────────────────────────────────────────────────────
 function getTextColor(
   theme: ColorTheme,
   onColor: boolean,
@@ -41,9 +31,6 @@ function getTextColor(
   }
   return onColor ? theme.content.common.onColor : theme.content.accent.primary;
 }
-// ─── Default icon ─────────────────────────────────────────────────────────────
-// Figma: outline/navigation/external-link (icon component 827:4890)
-// Sem biblioteca SVG no projeto — representado como texto Unicode ↗
 function ArrowTopRight({ color, size }: { color: string; size: number }) {
   return (
     <Text
@@ -60,16 +47,6 @@ function ArrowTopRight({ color, size }: { color: string; size: number }) {
     </Text>
   );
 }
-// ─── Component ────────────────────────────────────────────────────────────────
-/**
- * LinkAction — link textual com ícone trailing.
- *
- * Mapeia 1:1 o componente do Figma **Casas Bahia Pay — Design System**
- * (page node 797:1867 | component set node 46:3830). Variantes:
- * Size (Standard/Large), State (Enabled/Hover/Pressed/Disabled), OnColor (true/false).
- *
- * Estados Hover e Pressed exibem sublinhado (stroke 2px no Figma).
- */
 export function LinkAction({
   label,
   size = 'standard',
@@ -85,7 +62,6 @@ export function LinkAction({
   const { theme } = useTheme();
   const [hovered, setHovered] = useState(false);
   const isLarge = size === 'large';
-  // Figma: Standard icon = 16×16, Large icon = 20×20
   const iconSize = isLarge ? sizing.x5 : sizing.x4;
   return (
     <Pressable
@@ -108,11 +84,9 @@ export function LinkAction({
     >
       {({ pressed }) => {
         const textColor = getTextColor(theme, onColor, disabled);
-        // Figma: Stroke (sublinhado, strokeWeight 2px) presente em Hover e Pressed
         const showUnderline = (pressed || hovered) && !disabled;
         return (
           <>
-            {/* Label com underline condicional no press */}
             <View>
               <Text
                 style={[
@@ -125,7 +99,6 @@ export function LinkAction({
                 {label}
               </Text>
             </View>
-            {/* Ícone trailing — Figma: Arrow Top Right, sempre visível */}
             <View
               style={[styles.iconSlot, { width: iconSize, height: iconSize }]}
             >
@@ -137,32 +110,27 @@ export function LinkAction({
     </Pressable>
   );
 }
-// ─── Styles ───────────────────────────────────────────────────────────────────
 const styles = StyleSheet.create({
-  // Figma: row, alignItems center, gap 4px
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: sizing.x1, // 4px
+    gap: sizing.x1,
     alignSelf: 'flex-start',
   },
-  // Label/Small — Figma: DM Sans SemiBold 14px / lineHeight 16px
   labelStandard: {
     fontFamily: typography.fontFamily,
     fontWeight: '600',
-    fontSize: typography.fontSize.x3_5, // 14px
-    lineHeight: typography.lineHeight.x4, // 16px
+    fontSize: typography.fontSize.x3_5,
+    lineHeight: typography.lineHeight.x4,
     includeFontPadding: false,
   },
-  // Label/Medium — Figma: DM Sans SemiBold 16px / lineHeight 16px
   labelLarge: {
     fontFamily: typography.fontFamily,
     fontWeight: '600',
-    fontSize: typography.fontSize.x4, // 16px
-    lineHeight: typography.lineHeight.x4, // 16px
+    fontSize: typography.fontSize.x4,
+    lineHeight: typography.lineHeight.x4,
     includeFontPadding: false,
   },
-  // Figma: Stroke (sublinhado) strokeWeight 2px — visível no estado Hover/Pressed
   underline: {
     textDecorationLine: 'underline',
     textDecorationStyle: 'solid',

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import type { Meta, StoryObj } from '@storybook/react';
 import { typography } from 'banqi-tokens/rn';
 import { Checkbox } from './Checkbox';
@@ -8,18 +8,6 @@ const meta: Meta<typeof Checkbox> = {
   title: 'Components/Checkbox',
   component: Checkbox,
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: `
-Componente Checkbox do Design System Banqi, mapeado 1:1 com o Figma **Casas Bahia Pay — Design System** (node 795-820).
-Suporta **4 estados** (enabled, hover, pressed, disabled) × **2 seleções** (checked/unchecked),
-com preview do checkmark em hover/pressed unchecked e label opcional.
-Consome tokens via \`useTheme()\`.
-`,
-      },
-    },
-  },
   argTypes: {
     checked: {
       control: 'boolean',
@@ -48,19 +36,14 @@ export const Playground: Story = {
     return <Checkbox {...args} checked={checked} onChange={setChecked} />;
   },
 };
-// ─── Without Label ────────────────────────────────────────────────────────────
 export const WithoutLabel: Story = {
   name: 'Without Label',
   args: { label: undefined },
-  parameters: {
-    docs: { description: { story: 'Apenas o quadrado 24×24, sem label.' } },
-  },
   render: (args) => {
     const [checked, setChecked] = useState(true);
     return <Checkbox {...args} checked={checked} onChange={setChecked} />;
   },
 };
-// ─── All States ───────────────────────────────────────────────────────────────
 type StateRow = { label: string; checked: boolean; disabled: boolean };
 const STATE_ROWS: StateRow[] = [
   { label: 'Enabled / Unchecked', checked: false, disabled: false },
@@ -71,52 +54,22 @@ const STATE_ROWS: StateRow[] = [
 function StateLabel({ text }: { text: string }) {
   const { theme } = useTheme();
   return (
-    <Text
-      style={{
-        fontFamily: typography.fontFamily,
-        fontSize: typography.fontSize.x3,
-        fontWeight: '600',
-        color: theme.content.subtle,
-        textTransform: 'uppercase',
-        letterSpacing: 0.4,
-        marginBottom: 8,
-        width: 160,
-      }}
-    >
+    <Text style={[styles.stateLabel, { color: theme.content.subtle }]}>
       {text}
     </Text>
   );
 }
 export const AllStates: Story = {
   name: 'All States',
-  parameters: {
-    docs: {
-      description: {
-        story: 'Todas as combinações de estado × seleção, com e sem label.',
-      },
-    },
-  },
   render: () => {
     const [states, setStates] = useState<Record<number, boolean>>(
       Object.fromEntries(STATE_ROWS.map((r, i) => [i, r.checked]))
     );
     return (
-      <View style={{ padding: 16, gap: 20 }}>
-        <Text
-          style={{
-            fontFamily: typography.fontFamily,
-            fontSize: typography.fontSize.x3,
-            fontWeight: '700',
-            marginBottom: 4,
-          }}
-        >
-          With Label
-        </Text>
+      <View style={styles.container}>
+        <Text style={styles.groupTitle}>With Label</Text>
         {STATE_ROWS.map((row, i) => (
-          <View
-            key={i}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}
-          >
+          <View key={i} style={styles.row}>
             <StateLabel text={row.label} />
             <Checkbox
               checked={row.disabled ? row.checked : states[i]}
@@ -127,22 +80,9 @@ export const AllStates: Story = {
             />
           </View>
         ))}
-        <Text
-          style={{
-            fontFamily: typography.fontFamily,
-            fontSize: typography.fontSize.x3,
-            fontWeight: '700',
-            marginTop: 8,
-            marginBottom: 4,
-          }}
-        >
-          Without Label
-        </Text>
+        <Text style={styles.groupTitleSpaced}>Without Label</Text>
         {STATE_ROWS.map((row, i) => (
-          <View
-            key={`nl-${i}`}
-            style={{ flexDirection: 'row', alignItems: 'center', gap: 16 }}
-          >
+          <View key={`nl-${i}`} style={styles.row}>
             <StateLabel text={row.label} />
             <Checkbox
               checked={row.disabled ? row.checked : states[i]}
@@ -156,39 +96,29 @@ export const AllStates: Story = {
     );
   },
 };
-// ─── Interactive List ─────────────────────────────────────────────────────────
-export const InteractiveList: Story = {
-  name: 'Interactive List',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Exemplo de uso real: lista de opções com checkboxes independentes.',
-      },
-    },
+const styles = StyleSheet.create({
+  stateLabel: {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize.x3,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+    marginBottom: 8,
+    width: 160,
   },
-  render: () => {
-    const options = ['Transferência', 'Pix', 'Boleto', 'Cartão de crédito'];
-    const [selected, setSelected] = useState<Set<number>>(new Set([0]));
-    function toggle(i: number) {
-      setSelected((prev) => {
-        const next = new Set(prev);
-        next.has(i) ? next.delete(i) : next.add(i);
-        return next;
-      });
-    }
-    return (
-      <View style={{ padding: 16, gap: 12 }}>
-        {options.map((opt, i) => (
-          <Checkbox
-            key={opt}
-            checked={selected.has(i)}
-            onChange={() => toggle(i)}
-            label={opt}
-            accessibilityLabel={opt}
-          />
-        ))}
-      </View>
-    );
+  container: { padding: 16, gap: 20 },
+  groupTitle: {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize.x3,
+    fontWeight: '700',
+    marginBottom: 4,
   },
-};
+  groupTitleSpaced: {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize.x3,
+    fontWeight: '700',
+    marginTop: 8,
+    marginBottom: 4,
+  },
+  row: { flexDirection: 'row', alignItems: 'center', gap: 16 },
+});

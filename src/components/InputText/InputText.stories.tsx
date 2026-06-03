@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import type { Meta, StoryObj } from '@storybook/react';
 import { typography } from 'banqi-tokens/rn';
 import { InputText } from './InputText';
@@ -9,21 +9,6 @@ const meta: Meta<typeof InputText> = {
   title: 'Components/InputText',
   component: InputText,
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: `
-Campo de entrada de texto, mapeado 1:1 com o Figma **Casas Bahia Pay — Design System** (node 797:1690).
-Consome exclusivamente tokens do pacote \`banqi-tokens/rn\` via **ThemeProvider**. Use o botão **Theme** na toolbar para alternar entre os temas.
-- **size**: \`default\` (16px) ou \`large\` (32px)
-- **state**: \`default\` · \`disabled\` · \`readOnly\` · \`success\` · \`error\` · \`warning\`
-- **prefix**: string (ex.: \`"R$"\`) ou ReactNode dentro do campo
-- **trailingIcon**: slot ReactNode no fim do campo
-- **focus**: estado interno — borda muda para \`stroke.accent.primary\` e sombra inverte (\`+1.5px\` → \`-1.5px\`)
-`,
-      },
-    },
-  },
   argTypes: {
     label: { control: 'text', table: { type: { summary: 'string' } } },
     placeholder: { control: 'text', table: { type: { summary: 'string' } } },
@@ -65,7 +50,6 @@ Consome exclusivamente tokens do pacote \`banqi-tokens/rn\` via **ThemeProvider*
 export default meta;
 type Story = StoryObj<typeof InputText>;
 export const Playground: Story = { name: 'Playground' };
-// ─── Variações de uso ─────────────────────────────────────────────────────────
 export const WithPrefix: Story = {
   name: 'With Prefix',
   args: {
@@ -76,9 +60,7 @@ export const WithPrefix: Story = {
   },
 };
 const DotIcon = ({ color = '#191E2F' }: { color?: string }) => (
-  <View
-    style={{ width: 16, height: 16, borderRadius: 8, backgroundColor: color }}
-  />
+  <View style={[styles.dotIcon, { backgroundColor: color }]} />
 );
 export const WithTrailingIcon: Story = {
   name: 'With Trailing Icon',
@@ -101,7 +83,6 @@ export const Controlled: Story = {
     return <InputText {...args} value={value} onChangeText={setValue} />;
   },
 };
-// ─── Grid: todos os estados × tamanhos ────────────────────────────────────────
 const ALL_STATES: InputTextState[] = [
   'default',
   'disabled',
@@ -122,19 +103,10 @@ const HINT_BY_STATE: Record<InputTextState, string> = {
 function VariantsGrid({ size }: { size: InputTextSize }) {
   const { theme } = useTheme();
   return (
-    <View style={{ gap: 24, padding: 16 }}>
+    <View style={styles.container}>
       {ALL_STATES.map((state) => (
-        <View key={state} style={{ gap: 8, maxWidth: 360 }}>
-          <Text
-            style={{
-              fontFamily: typography.fontFamily,
-              fontSize: typography.fontSize.x3,
-              fontWeight: '600',
-              color: theme.content.subtle,
-              textTransform: 'uppercase',
-              letterSpacing: 0.4,
-            }}
-          >
+        <View key={state} style={styles.stateGroup}>
+          <Text style={[styles.stateLabel, { color: theme.content.subtle }]}>
             State: {state}
           </Text>
           <InputText
@@ -168,7 +140,7 @@ export const AllStatesLarge: Story = {
 export const AllSizes: Story = {
   name: 'All Sizes (default state)',
   render: () => (
-    <View style={{ gap: 24, padding: 16, maxWidth: 360 }}>
+    <View style={styles.sizesContainer}>
       {ALL_SIZES.map((size) => (
         <InputText
           key={size}
@@ -181,3 +153,16 @@ export const AllSizes: Story = {
     </View>
   ),
 };
+const styles = StyleSheet.create({
+  dotIcon: { width: 16, height: 16, borderRadius: 8 },
+  container: { gap: 24, padding: 16 },
+  stateGroup: { gap: 8, maxWidth: 360 },
+  stateLabel: {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize.x3,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+  },
+  sizesContainer: { gap: 24, padding: 16, maxWidth: 360 },
+});

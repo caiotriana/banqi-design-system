@@ -16,7 +16,6 @@ import {
   type ColorTheme,
 } from 'banqi-tokens/rn';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
-// ─── Built-in icons ──────────────────────────────────────────────────────────
 function ClearIcon({ color }: { color: string }) {
   return (
     <View style={iconStyles.clearContainer}>
@@ -88,7 +87,6 @@ function WarningIcon({ color }: { color: string }) {
     </View>
   );
 }
-// ─── Types ────────────────────────────────────────────────────────────────────
 export type InputTextSize = 'default' | 'large';
 export type InputTextState =
   | 'default'
@@ -101,20 +99,13 @@ export interface InputTextProps extends Omit<
   TextInputProps,
   'style' | 'editable'
 > {
-  /** Texto exibido acima do campo */
   label?: string;
-  /** Mensagem de ajuda/feedback exibida abaixo do campo */
   hintMessage?: string;
-  /** Tamanho — default (16px / lh16) ou large (32px / lh32) */
   size?: InputTextSize;
-  /** Estado funcional / feedback de validação */
   state?: InputTextState;
-  /** Prefixo dentro do campo (ex.: "R$"). String renderiza com a tipografia do input */
   prefix?: React.ReactNode | string;
-  /** Ícone trailing exibido dentro do campo */
   trailingIcon?: React.ReactNode;
 }
-// ─── Token map por estado ─────────────────────────────────────────────────────
 type StateTokens = {
   background: string;
   borderColor: string;
@@ -151,8 +142,6 @@ function getStateTokens(
       hintColor: theme.content.subtle,
     };
   }
-  // Borda de feedback prevalece sobre a borda de focus (UX: o usuário precisa
-  // continuar enxergando o estado de validação enquanto digita).
   const feedbackBorder: Partial<Record<InputTextState, string>> = {
     success: theme.stroke.feedback.success,
     error: theme.stroke.feedback.critical,
@@ -176,16 +165,6 @@ function getStateTokens(
     hintColor: feedbackHint[state] ?? theme.content.subtle,
   };
 }
-// ─── Component ────────────────────────────────────────────────────────────────
-/**
- * InputText — campo de entrada de texto.
- *
- * Mapeia 1:1 o componente do Figma **Casas Bahia Pay — Design System**
- * (component set node 405:33837, frame 797:1690). Estados do Figma
- * (Enabled / Hover / Active / Filled) são consolidados em `state="default"`:
- * `filled` vs placeholder é derivado automaticamente pelo TextInput, e `focus`
- * (Figma "Active") é controlado internamente via `onFocus`/`onBlur`.
- */
 export function InputText({
   label,
   hintMessage,
@@ -200,7 +179,6 @@ export function InputText({
 }: InputTextProps) {
   const { theme } = useTheme();
   const [focused, setFocused] = useState(false);
-  // RN 0.85: TextInput's ref type (_TextInputInstance) is not directly importable
   const inputRef = useRef<any>(null);
   const [internalValue, setInternalValue] = useState('');
   const isDisabled = state === 'disabled';
@@ -216,7 +194,8 @@ export function InputText({
     warning: <WarningIcon color={tokens.hintColor} />,
   };
   const builtInTrailing = feedbackIcons[state] ?? null;
-  const showClear = hasValue && isEditable && state === 'default' && !trailingIcon;
+  const showClear =
+    hasValue && isEditable && state === 'default' && !trailingIcon;
   function handleChangeText(text: string) {
     setInternalValue(text);
     rest.onChangeText?.(text);
@@ -226,15 +205,10 @@ export function InputText({
     inputRef.current?.clear();
     inputRef.current?.focus();
   }
-  // Figma:
-  //   Elevation/Enabled  = 0px  1.5px  (padrão)
-  //   Elevation/Active   = 0px -1.5px  (inset — focado)
-  //   Disabled / Read Only = sem sombra
   const hasElevation = isEditable;
   const shadowHeight = focused
     ? shadow.axis.negativeQuarter
     : shadow.axis.quarter;
-  // Default = Label/Medium (16/16) · Large = Label/XLarge (32/32)
   const inputFontSize = isLarge
     ? typography.fontSize.x8
     : typography.fontSize.x4;
@@ -269,8 +243,6 @@ export function InputText({
         <Pressable
           onPress={() => inputRef.current?.focus()}
           disabled={!isEditable}
-          // Hit slop não é necessário aqui — o próprio field já é toda a área de toque.
-          // accessible={false} evita que o Pressable "engula" o foco do TextInput em screen readers.
           accessible={false}
           style={[
             styles.field,
@@ -348,7 +320,6 @@ export function InputText({
       {hintMessage != null && (
         <Text
           style={[
-            // Figma: warning usa lineHeight 20px (vs 16px nos demais)
             state === 'warning' ? styles.hintWarning : styles.hint,
             { color: tokens.hintColor },
           ]}
@@ -359,41 +330,34 @@ export function InputText({
     </View>
   );
 }
-// ─── Styles (valores mapeados 1:1 dos tokens Figma) ───────────────────────────
 const styles = StyleSheet.create({
-  // Figma: column, gap 8px entre label, field e message
   container: {
-    gap: sizing.x2, // 8px
+    gap: sizing.x2,
   },
-  // Label/Small — DM Sans SemiBold 14px / lh 16px
   label: {
     fontFamily: typography.fontFamily,
     fontWeight: '600',
-    fontSize: typography.fontSize.x3_5, // 14px
-    lineHeight: typography.lineHeight.x4, // 16px
+    fontSize: typography.fontSize.x3_5,
+    lineHeight: typography.lineHeight.x4,
     includeFontPadding: false,
   },
-  // Wrapper que carrega a sombra — borderRadius igual ao field para o shadow seguir o shape no iOS
   fieldWrapper: {
-    borderRadius: radii.x4, // 16px
+    borderRadius: radii.x4,
   },
-  // Figma: row, padding 20px, gap 8px, radius 16px, border 1px
   field: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: sizing.x2, // 8px
-    paddingHorizontal: sizing.x5, // 20px
-    paddingVertical: sizing.x5, // 20px
-    borderRadius: radii.x4, // 16px
-    borderWidth: border.quarter, // 1px
+    gap: sizing.x2,
+    paddingHorizontal: sizing.x5,
+    paddingVertical: sizing.x5,
+    borderRadius: radii.x4,
+    borderWidth: border.quarter,
     overflow: 'hidden',
   },
-  // Slot genérico (prefixo / ícone) — apenas alinhamento, tamanho controlado pelo conteúdo
   slot: {
     alignItems: 'center',
     justifyContent: 'center',
   },
-  // Label/Medium (default) ou Label/XLarge (large) — fontSize/lineHeight aplicados inline
   inputText: {
     fontFamily: typography.fontFamily,
     fontWeight: '600',
@@ -405,19 +369,18 @@ const styles = StyleSheet.create({
     flex: 1,
     minWidth: 0,
   },
-  // Label/Small
   hint: {
     fontFamily: typography.fontFamily,
     fontWeight: '600',
-    fontSize: typography.fontSize.x3_5, // 14px
-    lineHeight: typography.lineHeight.x4, // 16px
+    fontSize: typography.fontSize.x3_5,
+    lineHeight: typography.lineHeight.x4,
     includeFontPadding: false,
   },
   hintWarning: {
     fontFamily: typography.fontFamily,
     fontWeight: '600',
-    fontSize: typography.fontSize.x3_5, // 14px
-    lineHeight: typography.lineHeight.x5, // 20px
+    fontSize: typography.fontSize.x3_5,
+    lineHeight: typography.lineHeight.x5,
     includeFontPadding: false,
   },
 });

@@ -1,5 +1,3 @@
-// Auto-generated from tokens/export.json — do not edit directly.
-
 export const lightPalette = {
   cobalt: {
     '50': '#f6f9fe',

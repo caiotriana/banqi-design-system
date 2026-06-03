@@ -1,5 +1,3 @@
-// Auto-generated from tokens/export.json — do not edit directly.
-
 export const typography = {
   fontFamily: 'DM Sans',
   fontSize: {

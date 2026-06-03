@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import type { Meta, StoryObj } from '@storybook/react';
 import { typography } from 'banqi-tokens/rn';
 import { IconButton } from './IconButton';
@@ -14,17 +14,7 @@ const VARIANT_ICON_COLOR: Record<string, string> = {
   'ghost-critical': '#ce1732',
 };
 function PlaceholderIcon({ color = '#fff' }: { color?: string }) {
-  return (
-    <View
-      style={{
-        width: 20,
-        height: 20,
-        borderRadius: 10,
-        borderWidth: 2,
-        borderColor: color,
-      }}
-    />
-  );
+  return <View style={[styles.placeholderIcon, { borderColor: color }]} />;
 }
 const ALL_VARIANTS: IconButtonVariant[] = [
   'primary',
@@ -39,17 +29,6 @@ const meta: Meta<typeof IconButton> = {
   title: 'Components/IconButton',
   component: IconButton,
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: `
-Componente IconButton do Design System Banqi, mapeado 1:1 com o Figma **Casas Bahia Pay — Design System** (node 797-1528).
-Suporta **7 variantes**, **4 estados** (enabled, hover, pressed, disabled) e **2 tamanhos** (medium 48px, small 36px).
-Consome exclusivamente tokens do pacote \`banqi-tokens/rn\` via **ThemeProvider**.
-`,
-      },
-    },
-  },
   argTypes: {
     variant: {
       control: 'select',
@@ -87,39 +66,20 @@ Consome exclusivamente tokens do pacote \`banqi-tokens/rn\` via **ThemeProvider*
 export default meta;
 type Story = StoryObj<typeof IconButton>;
 export const Playground: Story = { name: 'Playground' };
-// ─── Disabled State ───────────────────────────────────────────────────────────
 function VariantLabel({ label }: { label: string }) {
   const { theme } = useTheme();
   return (
-    <Text
-      style={{
-        fontFamily: typography.fontFamily,
-        fontSize: typography.fontSize.x3,
-        color: theme.content.subtle,
-        marginTop: 4,
-        textAlign: 'center',
-      }}
-    >
+    <Text style={[styles.variantLabel, { color: theme.content.subtle }]}>
       {label}
     </Text>
   );
 }
 export const DisabledState: Story = {
   name: 'State / Disabled',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Todas as variantes no estado `disabled`. Visual unificado: fundo `surface.common.disabled`, ícone `content.common.disabled`.',
-      },
-    },
-  },
   render: () => (
-    <View
-      style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 16, padding: 16 }}
-    >
+    <View style={styles.rowWrap}>
       {ALL_VARIANTS.map((variant) => (
-        <View key={variant} style={{ alignItems: 'center' }}>
+        <View key={variant} style={styles.item}>
           <IconButton
             variant={variant}
             size="medium"
@@ -133,33 +93,20 @@ export const DisabledState: Story = {
     </View>
   ),
 };
-// ─── OnColor Background ───────────────────────────────────────────────────────
 export const OnColorBackground: Story = {
   name: 'OnColor Background',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Variantes `oncolor` e `ghost-oncolor` em contexto de uso correto: sobre `surface.accent.primary`.',
-      },
-    },
-  },
   render: () => {
     const { theme } = useTheme();
     return (
       <View
-        style={{
-          flexDirection: 'row',
-          gap: 16,
-          padding: 24,
-          backgroundColor: theme.surface.accent.primary,
-          borderRadius: 16,
-          alignSelf: 'flex-start',
-        }}
+        style={[
+          styles.onColorContainer,
+          { backgroundColor: theme.surface.accent.primary },
+        ]}
       >
         {(['oncolor', 'ghost-oncolor'] as IconButtonVariant[]).map(
           (variant) => (
-            <View key={variant} style={{ alignItems: 'center' }}>
+            <View key={variant} style={styles.item}>
               <IconButton
                 variant={variant}
                 size="medium"
@@ -171,12 +118,10 @@ export const OnColorBackground: Story = {
                 }
               />
               <Text
-                style={{
-                  fontFamily: typography.fontFamily,
-                  fontSize: typography.fontSize.x3,
-                  color: theme.content.common.onColor,
-                  marginTop: 4,
-                }}
+                style={[
+                  styles.onColorLabel,
+                  { color: theme.content.common.onColor },
+                ]}
               >
                 {variant}
               </Text>
@@ -187,22 +132,13 @@ export const OnColorBackground: Story = {
     );
   },
 };
-// ─── Critical Variants ────────────────────────────────────────────────────────
 export const CriticalVariants: Story = {
   name: 'Critical Variants',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          '`critical` (fundo sólido vermelho) e `ghost-critical` (sem fundo, ícone vermelho). Para ações destrutivas ou alertas.',
-      },
-    },
-  },
   render: () => (
-    <View style={{ flexDirection: 'row', gap: 16, padding: 16 }}>
+    <View style={styles.row}>
       {(['critical', 'ghost-critical'] as IconButtonVariant[]).map(
         (variant) => (
-          <View key={variant} style={{ alignItems: 'center' }}>
+          <View key={variant} style={styles.item}>
             <IconButton
               variant={variant}
               size="medium"
@@ -216,51 +152,33 @@ export const CriticalVariants: Story = {
     </View>
   ),
 };
-// ─── Full Matrix ──────────────────────────────────────────────────────────────
 export const FullMatrix: Story = {
   name: 'Full Matrix — Variants × Sizes',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Todas as variantes × tamanhos (enabled). Referência visual para QA e design review.',
-      },
-    },
-  },
   render: () => {
     const { theme } = useTheme();
     const sizes: IconButtonSize[] = ['medium', 'small'];
     return (
-      <View style={{ padding: 16, gap: 24 }}>
+      <View style={styles.matrixContainer}>
         {sizes.map((size) => (
           <View key={size}>
-            <Text
-              style={{
-                fontFamily: typography.fontFamily,
-                fontSize: typography.fontSize.x3,
-                fontWeight: '600',
-                color: theme.content.subtle,
-                textTransform: 'uppercase',
-                letterSpacing: 0.4,
-                marginBottom: 12,
-              }}
-            >
+            <Text style={[styles.sizeLabel, { color: theme.content.subtle }]}>
               Size: {size}
             </Text>
-            <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 12 }}>
+            <View style={styles.matrixRow}>
               {ALL_VARIANTS.map((variant) => {
                 const needsColorBg =
                   variant === 'ghost-oncolor' || variant === 'oncolor';
                 return (
-                  <View key={variant} style={{ alignItems: 'center' }}>
+                  <View key={variant} style={styles.item}>
                     <View
-                      style={{
-                        padding: 8,
-                        borderRadius: 24,
-                        backgroundColor: needsColorBg
-                          ? theme.surface.accent.primary
-                          : 'transparent',
-                      }}
+                      style={[
+                        styles.iconBg,
+                        {
+                          backgroundColor: needsColorBg
+                            ? theme.surface.accent.primary
+                            : 'transparent',
+                        },
+                      ]}
                     >
                       <IconButton
                         variant={variant}
@@ -284,3 +202,43 @@ export const FullMatrix: Story = {
     );
   },
 };
+const styles = StyleSheet.create({
+  placeholderIcon: { width: 20, height: 20, borderRadius: 10, borderWidth: 2 },
+  variantLabel: {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize.x3,
+    marginTop: 4,
+    textAlign: 'center',
+  },
+  rowWrap: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 16,
+    padding: 16,
+  },
+  row: { flexDirection: 'row', gap: 16, padding: 16 },
+  item: { alignItems: 'center' },
+  onColorContainer: {
+    flexDirection: 'row',
+    gap: 16,
+    padding: 24,
+    borderRadius: 16,
+    alignSelf: 'flex-start',
+  },
+  onColorLabel: {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize.x3,
+    marginTop: 4,
+  },
+  matrixContainer: { padding: 16, gap: 24 },
+  sizeLabel: {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize.x3,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+    marginBottom: 12,
+  },
+  matrixRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  iconBg: { padding: 8, borderRadius: 24 },
+});

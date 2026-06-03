@@ -2,8 +2,6 @@ import { StyleSheet } from 'react-native';
 import { radii, sizing, border, type ColorTheme } from 'banqi-tokens/rn';
 import type { IconButtonVariant, IconButtonSize } from './IconButton.types';
 
-// ─── Variant tokens ────────────────────────────────────────────────────────────
-
 export type VariantTokens = {
   backgroundColor: string;
   iconColor: string;
@@ -11,10 +9,6 @@ export type VariantTokens = {
   borderWidth: number;
 };
 
-/**
- * Resolve os tokens de cor para a combinação variante + estado disabled.
- * Quando disabled, todas as variantes usam a mesma aparência cinza.
- */
 export function getVariantTokens(
   variant: IconButtonVariant,
   theme: ColorTheme,
@@ -77,24 +71,16 @@ export function getVariantTokens(
   return map[variant];
 }
 
-// ─── Size helpers ──────────────────────────────────────────────────────────────
-
-/** Retorna dimensão e borderRadius para cada tamanho */
 export function getSizeTokens(size: IconButtonSize): {
   dimension: number;
   borderRadius: number;
 } {
   if (size === 'small') {
-    // Figma (node 46:3535): padding 8px + icon 20px = 36×36, r=12 (radii.x3)
-    return { dimension: sizing.x5 + sizing.x2 * 2, borderRadius: radii.x3 }; // 20 + 16 = 36
+    return { dimension: sizing.x5 + sizing.x2 * 2, borderRadius: radii.x3 };
   }
-  // Figma (node 46:3535): padding 12px + icon 20px = 44×44, r=16 (radii.x4)
-  return { dimension: sizing.x5 + sizing.x3 * 2, borderRadius: radii.x4 }; // 20 + 24 = 44
+  return { dimension: sizing.x5 + sizing.x3 * 2, borderRadius: radii.x4 };
 }
 
-// ─── Static base styles ────────────────────────────────────────────────────────
-
-/** Styles estáticos que não dependem de tema ou variante */
 export const baseStyles = StyleSheet.create({
   wrapper: {
     alignSelf: 'flex-start',
@@ -105,7 +91,7 @@ export const baseStyles = StyleSheet.create({
     overflow: 'hidden',
   },
   iconContainer: {
-    width: sizing.x5, // 20px — Label/Large fontSize do Figma
+    width: sizing.x5,
     height: sizing.x5,
     alignItems: 'center',
     justifyContent: 'center',

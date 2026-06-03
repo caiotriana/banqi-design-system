@@ -7,7 +7,6 @@ import {
   baseStyles,
 } from './Callout.styles';
 import type { CalloutProps } from './Callout.types';
-// ─── Ícone de seta (Link Action) ───────────────────────────────────────────────
 function ArrowIcon({ color }: { color: string }) {
   return (
     <View style={baseStyles.arrowContainer}>
@@ -15,7 +14,6 @@ function ArrowIcon({ color }: { color: string }) {
     </View>
   );
 }
-// ─── Ícone de fechar (Trailing) ────────────────────────────────────────────────
 function CloseIcon({ color }: { color: string }) {
   return (
     <View style={baseStyles.closeIcon}>
@@ -24,28 +22,6 @@ function CloseIcon({ color }: { color: string }) {
     </View>
   );
 }
-// ─── Component ─────────────────────────────────────────────────────────────────
-/**
- * Callout — componente de mensagem informativa contextual.
- *
- * Mapeia 1:1 os componentes do Figma **Casas Bahia Pay — Design System**
- * (node 797-1970). Suporta 5 variantes × actionable/non-actionable × closable.
- *
- * O slot `icon` é composable — aceita qualquer ReactNode.
- * O componente não importa ícones diretamente.
- *
- * @example
- * // Actionable com ícone (composição no lado do consumidor)
- * <Callout
- *   variant="info"
- *   title="Atenção"
- *   description="Sua senha expira em 3 dias."
- *   icon={<InfoIcon size={20} />}
- *   actionLabel="Alterar senha"
- *   onActionPress={() => navigate('change-password')}
- *   onClose={() => dismiss()}
- * />
- */
 export function Callout({
   variant = 'standard',
   title,
@@ -59,7 +35,6 @@ export function Callout({
 }: CalloutProps) {
   const { theme } = useTheme();
   const tokens = getCalloutTokens(theme, variant);
-  // Actionable=True → borda e sombra conforme Figma
   const isActionable = actionLabel != null;
   return (
     <View
@@ -71,18 +46,14 @@ export function Callout({
         baseStyles.card,
         { backgroundColor: tokens.bg },
         isActionable && {
-          // Figma: Actionable=True → strokeWeight 1px + Elevation/Enabled
-          borderWidth: border.quarter, // 1px
+          borderWidth: border.quarter,
           borderColor: tokens.borderColor,
           ...getCalloutShadow(tokens.shadowColor),
         },
       ]}
     >
-      {/* Leading — slot de ícone composable */}
       {icon != null && icon}
-      {/* Content Wrapper — layout_CUPC6D */}
       <View style={baseStyles.contentWrapper}>
-        {/* Main Content — layout_NL799O */}
         <View style={baseStyles.mainContent}>
           {title != null && (
             <Text
@@ -96,7 +67,6 @@ export function Callout({
             {description}
           </Text>
         </View>
-        {/* Link Action — apenas em Actionable=True (layout_JI5H17) */}
         {isActionable && (
           <Pressable
             onPress={onActionPress}
@@ -112,7 +82,6 @@ export function Callout({
           </Pressable>
         )}
       </View>
-      {/* Trailing — botão fechar, apenas quando onClose é fornecido */}
       {onClose != null && (
         <Pressable
           onPress={onClose}

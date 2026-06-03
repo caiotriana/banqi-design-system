@@ -8,30 +8,11 @@ import {
   baseStyles,
 } from './IconButton.styles';
 import type { IconButtonProps } from './IconButton.types';
-// ─── Variants sem fundo sólido (shadow não faz sentido) ────────────────────────
 const GHOST_VARIANTS = new Set([
   'ghost',
   'ghost-oncolor',
   'ghost-critical',
 ] as const);
-// ─── Component ─────────────────────────────────────────────────────────────────
-/**
- * IconButton — botão de ação com ícone centrado.
- *
- * Mapeia 1:1 os componentes do Figma **Casas Bahia Pay — Design System**
- * (page node 797:1528 | component set node 46:3535). Consome tokens via
- * `useTheme()` e suporta 7 variantes, 4 estados (enabled, hover, pressed,
- * disabled) e 2 tamanhos (medium=44×44 r16, small=36×36 r12).
- *
- * @example
- * <IconButton
- *   variant="primary"
- *   size="medium"
- *   icon={<MyIcon />}
- *   accessibilityLabel="Confirmar pagamento"
- *   onPress={handlePress}
- * />
- */
 export function IconButton({
   variant = 'primary',
   size = 'medium',
@@ -47,21 +28,15 @@ export function IconButton({
   const [isPressed, setIsPressed] = useState(false);
   const tokens = getVariantTokens(variant, theme, disabled);
   const { dimension, borderRadius } = getSizeTokens(size);
-  // Ghost variants sem fundo sólido — shadow não agrega valor visual
   const hasElevation =
     !disabled &&
     !GHOST_VARIANTS.has(
       variant as 'ghost' | 'ghost-oncolor' | 'ghost-critical'
     );
-  // Figma elevation por estado (offsets via shadow.axis):
-  //   Enabled → 0px  1.5px  (shadow.axis.quarter)
-  //   Hover   → 0px  3px    (shadow.axis.third)
-  //   Pressed → 0px -1.5px  (-shadow.axis.quarter — negativo, shadow sobe)
-  //   Disabled→ sem sombra
   function getShadowOffsetY(): number {
-    if (isPressed) return -shadow.axis.quarter; // -1.5
-    if (hovered) return shadow.axis.third; //  3
-    return shadow.axis.quarter; //  1.5
+    if (isPressed) return -shadow.axis.quarter;
+    if (hovered) return shadow.axis.third;
+    return shadow.axis.quarter;
   }
   function handlePressIn() {
     setIsPressed(true);
@@ -92,12 +67,10 @@ export function IconButton({
           transform: [{ scale: scaleAnim }],
         },
         hasElevation && {
-          // iOS — shadow mapeado 1:1 dos tokens Figma
           shadowColor: theme.elevation.default,
           shadowOffset: { width: shadow.axis.none, height: getShadowOffsetY() },
-          shadowOpacity: 1, // opacidade já embutida no token rgba
-          shadowRadius: shadow.blur.none, // blur=0 no Figma
-          // Android
+          shadowOpacity: 1,
+          shadowRadius: shadow.blur.none,
           elevation: isPressed ? 1 : hovered ? 4 : 2,
         },
       ]}
@@ -128,7 +101,6 @@ export function IconButton({
       >
         {({ pressed: rnPressed }) => (
           <>
-            {/* Overlay de pressed — Figma rgba(255,255,255,0.32) = surface.common.pressed */}
             {rnPressed && !disabled && (
               <View
                 style={[
@@ -141,7 +113,6 @@ export function IconButton({
                 pointerEvents="none"
               />
             )}
-            {/* Overlay de hover (web/tablet) — Figma rgba(255,255,255,0.24) = surface.common.hover */}
             {hovered && !rnPressed && !disabled && (
               <View
                 style={[

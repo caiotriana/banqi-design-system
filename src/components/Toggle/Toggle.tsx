@@ -9,23 +9,6 @@ import {
   KNOB_TRAVEL,
 } from './Toggle.styles';
 import type { ToggleProps } from './Toggle.types';
-// ─── Component ─────────────────────────────────────────────────────────────────
-/**
- * Toggle — componente de ativação binária (switch).
- *
- * Mapeia 1:1 os componentes do Figma **Casas Bahia Pay — Design System**
- * (node 797:2684). Suporta 4 estados (enabled, hover, pressed, disabled)
- * e anima o knob entre as posições OFF/ON.
- *
- * @example
- * const [enabled, setEnabled] = useState(false);
- *
- * <Toggle
- *   enabled={enabled}
- *   onChange={setEnabled}
- *   label="Receber notificações"
- * />
- */
 export function Toggle({
   enabled = false,
   onChange,
@@ -40,7 +23,6 @@ export function Toggle({
   const [hovered, setHovered] = useState(false);
   const [isPressed, setIsPressed] = useState(false);
   const tokens = getToggleTokens(theme, enabled, disabled, hovered, isPressed);
-  // Anima o knob ao mudar de estado
   useEffect(() => {
     Animated.spring(knobAnim, {
       toValue: enabled ? 1 : 0,
@@ -51,17 +33,12 @@ export function Toggle({
   }, [enabled, knobAnim]);
   const knobTranslateX = knobAnim.interpolate({
     inputRange: [0, 1],
-    outputRange: [0, KNOB_TRAVEL], // 0 → 16px
+    outputRange: [0, KNOB_TRAVEL],
   });
-  // Figma elevation por estado (idêntico ao Checkbox/Radio):
-  //   Enabled → 0px  1.5px  (positionY +1.5)
-  //   Hover   → 0px  3px    (positionY +3)
-  //   Pressed → 0px -1.5px  (positionY -1.5 — sombra sobe)
-  //   Disabled→ sem sombra
   function getShadowOffsetY(): number {
-    if (isPressed) return -shadow.axis.quarter; // -1.5
-    if (hovered) return shadow.axis.third; //  3
-    return shadow.axis.quarter; //  1.5
+    if (isPressed) return -shadow.axis.quarter;
+    if (hovered) return shadow.axis.third;
+    return shadow.axis.quarter;
   }
   function handlePressIn() {
     setIsPressed(true);
@@ -101,13 +78,11 @@ export function Toggle({
       testID={testID}
       style={baseStyles.container}
     >
-      {/* Shadow wrapper — separado do overflow:hidden */}
       <Animated.View
         style={[
           baseStyles.shadowWrapper,
           { transform: [{ scale: scaleAnim }] },
           tokens.hasShadow && {
-            // iOS
             shadowColor: theme.elevation.default,
             shadowOffset: {
               width: shadow.axis.none,
@@ -115,12 +90,10 @@ export function Toggle({
             },
             shadowOpacity: 1,
             shadowRadius: shadow.blur.none,
-            // Android
             elevation: isPressed ? 1 : hovered ? 4 : 2,
           },
         ]}
       >
-        {/* Track — overflow:hidden clipa o overlay */}
         <View
           style={[
             baseStyles.track,
@@ -131,7 +104,6 @@ export function Toggle({
             },
           ]}
         >
-          {/* Knob animado — translateX de 0 a KNOB_TRAVEL (16px) */}
           <Animated.View
             style={[
               baseStyles.knob,
@@ -142,7 +114,6 @@ export function Toggle({
               },
             ]}
           />
-          {/* Overlay de estado — fill_ASFXV9 (hover) ou fill_8ZLMCP (pressed) */}
           {tokens.overlayColor != null && (
             <View
               style={[
@@ -157,7 +128,6 @@ export function Toggle({
           )}
         </View>
       </Animated.View>
-      {/* Label — Paragraph/Medium: DM Sans 400 14px lh:20px */}
       {label != null && (
         <Text
           style={[baseStyles.label, { color: tokens.labelColor }]}

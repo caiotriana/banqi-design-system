@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import type { Meta, StoryObj } from '@storybook/react';
 import { typography } from 'banqi-tokens/rn';
 import { Badge } from './Badge';
@@ -10,23 +10,11 @@ const meta: Meta<typeof Badge> = {
   tags: ['autodocs'],
   decorators: [
     (Story) => (
-      <View style={{ alignItems: 'flex-start' }}>
+      <View style={styles.decorator}>
         <Story />
       </View>
     ),
   ],
-  parameters: {
-    docs: {
-      description: {
-        component: `
-Componente Badge do Design System Banqi, mapeado 1:1 com o Figma **Casas Bahia Pay — Design System** (node 795-754).
-Suporta **6 variantes** (highlight, neutral, accent, success, warning, critical) × **estado disabled**,
-com dot de status opcional. Componente puramente visual — sem interação.
-Consome tokens via \`useTheme()\`.
-`,
-      },
-    },
-  },
   argTypes: {
     variant: {
       control: 'select',
@@ -55,7 +43,6 @@ Consome tokens via \`useTheme()\`.
 export default meta;
 type Story = StoryObj<typeof Badge>;
 export const Playground: Story = { name: 'Playground' };
-// ─── Full Matrix ──────────────────────────────────────────────────────────────
 const VARIANTS: BadgeVariant[] = [
   'highlight',
   'neutral',
@@ -67,50 +54,34 @@ const VARIANTS: BadgeVariant[] = [
 function SectionTitle({ text }: { text: string }) {
   const { theme } = useTheme();
   return (
-    <Text
-      style={{
-        fontFamily: typography.fontFamily,
-        fontSize: typography.fontSize.x3,
-        fontWeight: '700',
-        color: theme.content.default,
-        marginBottom: 8,
-      }}
-    >
+    <Text style={[styles.sectionTitle, { color: theme.content.default }]}>
       {text}
     </Text>
   );
 }
 export const FullMatrix: Story = {
   name: 'Full Matrix',
-  parameters: {
-    docs: {
-      description: {
-        story:
-          'Grid completo: todas as variantes × sem dot / com dot / disabled.',
-      },
-    },
-  },
   render: () => (
-    <View style={{ padding: 16, gap: 20 }}>
-      <View style={{ gap: 10 }}>
+    <View style={styles.container}>
+      <View style={styles.group}>
         <SectionTitle text="Status=False" />
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+        <View style={styles.rowWrap}>
           {VARIANTS.map((v) => (
             <Badge key={v} label={v} variant={v} />
           ))}
         </View>
       </View>
-      <View style={{ gap: 10 }}>
+      <View style={styles.group}>
         <SectionTitle text="Status=True" />
-        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+        <View style={styles.rowWrap}>
           {VARIANTS.map((v) => (
             <Badge key={v} label={v} variant={v} showDot />
           ))}
         </View>
       </View>
-      <View style={{ gap: 10 }}>
+      <View style={styles.group}>
         <SectionTitle text="Disabled" />
-        <View style={{ flexDirection: 'row', gap: 8 }}>
+        <View style={styles.row}>
           <Badge label="Label" disabled />
           <Badge label="Label" disabled showDot />
         </View>
@@ -118,86 +89,16 @@ export const FullMatrix: Story = {
     </View>
   ),
 };
-// ─── In Context ───────────────────────────────────────────────────────────────
-export const InContext: Story = {
-  name: 'In Context',
-  parameters: {
-    docs: {
-      description: { story: 'Exemplo de uso real: badges em itens de lista.' },
-    },
+const styles = StyleSheet.create({
+  decorator: { alignItems: 'flex-start' },
+  sectionTitle: {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize.x3,
+    fontWeight: '700',
+    marginBottom: 8,
   },
-  render: () => {
-    const { theme } = useTheme();
-    const items = [
-      {
-        title: 'Pix recebido',
-        amount: 'R$ 150,00',
-        badge: { label: 'Recebido', variant: 'success' as BadgeVariant },
-      },
-      {
-        title: 'Boleto pendente',
-        amount: 'R$ 89,90',
-        badge: {
-          label: 'Pendente',
-          variant: 'warning' as BadgeVariant,
-          showDot: true,
-        },
-      },
-      {
-        title: 'Transferência',
-        amount: 'R$ 500,00',
-        badge: { label: 'Novo', variant: 'accent' as BadgeVariant },
-      },
-      {
-        title: 'Pagamento recusado',
-        amount: 'R$ 200,00',
-        badge: { label: 'Recusado', variant: 'critical' as BadgeVariant },
-      },
-      {
-        title: 'Conta bloqueada',
-        amount: '—',
-        badge: { label: 'Inativo', disabled: true },
-      },
-    ];
-    return (
-      <View style={{ padding: 16, gap: 0 }}>
-        {items.map((item, i) => (
-          <View
-            key={i}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingVertical: 12,
-              borderBottomWidth: 1,
-              borderBottomColor: theme.stroke.default,
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: typography.fontFamily,
-                fontSize: typography.fontSize.x3_5,
-                color: theme.content.default,
-                flex: 1,
-              }}
-            >
-              {item.title}
-            </Text>
-            <Text
-              style={{
-                fontFamily: typography.fontFamily,
-                fontSize: typography.fontSize.x3_5,
-                fontWeight: '600',
-                color: theme.content.default,
-                marginRight: 8,
-              }}
-            >
-              {item.amount}
-            </Text>
-            <Badge {...item.badge} label={item.badge.label} />
-          </View>
-        ))}
-      </View>
-    );
-  },
-};
+  container: { padding: 16, gap: 20 },
+  group: { gap: 10 },
+  rowWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  row: { flexDirection: 'row', gap: 8 },
+});

@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import type { Meta, StoryObj } from '@storybook/react';
 import { typography } from 'banqi-tokens/rn';
 import { LinkAction } from './LinkAction';
@@ -8,20 +8,6 @@ const meta: Meta<typeof LinkAction> = {
   title: 'Components/LinkAction',
   component: LinkAction,
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: `
-Componente de link com ícone de ação, mapeado 1:1 com o Figma **Casas Bahia Pay — Design System** (node 797-1867).
-Consome exclusivamente tokens do pacote \`banqi-tokens/rn\` via **ThemeProvider**. Use o botão **Theme** na toolbar para alternar entre os temas.
-- **size**: \`standard\` (14px, ícone 16×16) ou \`large\` (16px, ícone 20×20)
-- **onColor**: aplica cores para fundos coloridos/escuros (branco)
-- **disabled**: desativa interação e escurece o texto
-- **icon**: slot ReactNode; padrão é a seta ↗ (external link)
-`,
-      },
-    },
-  },
   argTypes: {
     label: {
       control: 'text',
@@ -57,57 +43,51 @@ Consome exclusivamente tokens do pacote \`banqi-tokens/rn\` via **ThemeProvider*
 export default meta;
 type Story = StoryObj<typeof LinkAction>;
 export const Playground: Story = { name: 'Playground' };
-// ─── Grid todas as variantes ──────────────────────────────────────────────────
 const ALL_SIZES: LinkActionSize[] = ['standard', 'large'];
 function VariantsGrid() {
   const { theme } = useTheme();
-  const labelStyle = {
-    fontFamily: typography.fontFamily,
-    fontSize: typography.fontSize.x3,
-    fontWeight: '600' as const,
-    color: theme.content.subtle,
-    textTransform: 'uppercase' as const,
-    letterSpacing: 0.4,
-    marginBottom: 8,
-  };
   return (
-    <View style={{ gap: 24, padding: 16 }}>
-      {/* OnColor=False */}
-      <View style={{ gap: 16 }}>
-        <Text style={labelStyle}>OnColor: False</Text>
+    <View style={styles.container}>
+      <View style={styles.group}>
+        <Text style={[styles.label, { color: theme.content.subtle }]}>
+          OnColor: False
+        </Text>
         {ALL_SIZES.map((size) => (
-          <View key={size} style={{ gap: 8 }}>
+          <View key={size} style={styles.sizeGroup}>
             <Text
-              style={[labelStyle, { fontSize: typography.fontSize.x3 - 2 }]}
+              style={[
+                styles.label,
+                {
+                  fontSize: typography.fontSize.x3 - 2,
+                  color: theme.content.subtle,
+                },
+              ]}
             >
               {size} — enabled / disabled
             </Text>
-            <View style={{ flexDirection: 'row', gap: 24, flexWrap: 'wrap' }}>
+            <View style={styles.row}>
               <LinkAction size={size} label="Link" />
               <LinkAction size={size} label="Link" disabled />
             </View>
           </View>
         ))}
       </View>
-      {/* OnColor=True */}
       <View
-        style={{
-          backgroundColor: theme.surface.accent.primary,
-          borderRadius: 12,
-          padding: 16,
-          gap: 16,
-        }}
+        style={[
+          styles.onColorContainer,
+          { backgroundColor: theme.surface.accent.primary },
+        ]}
       >
         <Text
-          style={[labelStyle, { color: theme.content.common.onColorSubtle }]}
+          style={[styles.label, { color: theme.content.common.onColorSubtle }]}
         >
           OnColor: True
         </Text>
         {ALL_SIZES.map((size) => (
-          <View key={size} style={{ gap: 8 }}>
+          <View key={size} style={styles.sizeGroup}>
             <Text
               style={[
-                labelStyle,
+                styles.label,
                 {
                   fontSize: typography.fontSize.x3 - 2,
                   color: theme.content.common.onColorSubtle,
@@ -116,7 +96,7 @@ function VariantsGrid() {
             >
               {size} — enabled / disabled
             </Text>
-            <View style={{ flexDirection: 'row', gap: 24, flexWrap: 'wrap' }}>
+            <View style={styles.row}>
               <LinkAction size={size} label="Link" onColor />
               <LinkAction size={size} label="Link" onColor disabled />
             </View>
@@ -130,3 +110,18 @@ export const AllVariants: Story = {
   name: 'All Variants × States',
   render: () => <VariantsGrid />,
 };
+const styles = StyleSheet.create({
+  label: {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize.x3,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+    marginBottom: 8,
+  },
+  container: { gap: 24, padding: 16 },
+  group: { gap: 16 },
+  sizeGroup: { gap: 8 },
+  row: { flexDirection: 'row', gap: 24, flexWrap: 'wrap' },
+  onColorContainer: { borderRadius: 12, padding: 16, gap: 16 },
+});

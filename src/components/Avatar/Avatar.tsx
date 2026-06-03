@@ -3,26 +3,7 @@ import { Animated, Image } from 'react-native';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
 import { getSizeTokens, getVisualTokens, baseStyles } from './Avatar.styles';
 import type { AvatarProps } from './Avatar.types';
-// casas bahia pay/symbol/default (Figma node 810:3967)
 import LOGO from './assets/logo-cbpay.png';
-// ─── Component ─────────────────────────────────────────────────────────────────
-/**
- * Avatar — componente de identificação visual de usuário ou marca.
- *
- * Mapeia 1:1 os componentes do Figma **Casas Bahia Pay — Design System**
- * (node 795-672). Suporta 4 variantes × 3 tamanhos × 3 estados.
- *
- * - `icon`: slot composable — aceita qualquer ReactNode
- * - `initials`: texto de até 2 caracteres
- * - `image`: foto via `imageSource` (URI ou require)
- * - `logo`: logo Casas Bahia Pay embutido (`casas bahia pay/symbol/default`)
- *
- * @example
- * <Avatar variant="initials" initials="CB" size="large" />
- * <Avatar variant="image" imageSource={{ uri: 'https://...' }} />
- * <Avatar variant="logo" size="standard" />
- * <Avatar variant="icon" icon={<MyIcon size={20} />} />
- */
 export function Avatar({
   variant = 'initials',
   size = 'standard',
@@ -36,7 +17,6 @@ export function Avatar({
   const { theme } = useTheme();
   const sizeTokens = getSizeTokens(size);
   const visualTokens = getVisualTokens(theme, variant, state);
-  // ─── Skeleton shimmer ──────────────────────────────────────────────────────
   const skeletonAnim = useRef(new Animated.Value(1)).current;
   useEffect(() => {
     if (state === 'skeleton') {
@@ -61,10 +41,8 @@ export function Avatar({
     }
     return undefined;
   }, [state, skeletonAnim]);
-  // ─── Conteúdo interno por variante ────────────────────────────────────────
   function renderContent() {
     if (state === 'skeleton') {
-      // Skeleton: apenas o container animado, sem conteúdo interno
       return null;
     }
     switch (variant) {

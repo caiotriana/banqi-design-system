@@ -1,5 +1,3 @@
-// Auto-generated from tokens/export.json — do not edit directly.
-
 import { lightPalette, darkPalette } from './palette';
 
 import { border, shadow, sizing, radii } from './base';

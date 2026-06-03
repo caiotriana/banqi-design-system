@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import type { Meta, StoryObj } from '@storybook/react';
 import { typography } from 'banqi-tokens/rn';
 import { Button } from './Button';
@@ -8,16 +8,6 @@ const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
   tags: ['autodocs'],
-  parameters: {
-    docs: {
-      description: {
-        component: `
-Componente base do Design System Banqi, mapeado 1:1 com o Figma **Casas Bahia Pay — Design System**.
-Consome exclusivamente tokens do pacote \`banqi-tokens/rn\` via **ThemeProvider** — o tema (light/dark) é controlado pelo contexto, sem props extras. Use o botão **Theme** na toolbar para alternar entre os temas.
-`,
-      },
-    },
-  },
   argTypes: {
     label: {
       control: 'text',
@@ -68,17 +58,8 @@ Consome exclusivamente tokens do pacote \`banqi-tokens/rn\` via **ThemeProvider*
 export default meta;
 type Story = StoryObj<typeof Button>;
 export const Playground: Story = { name: 'Playground' };
-// ─── Com ícones ───────────────────────────────────────────────────────────────
 const DummyIcon = ({ color = '#fff' }: { color?: string }) => (
-  <View
-    style={{
-      width: 16,
-      height: 16,
-      borderRadius: 8,
-      backgroundColor: color,
-      opacity: 0.7,
-    }}
-  />
+  <View style={[styles.dummyIcon, { backgroundColor: color }]} />
 );
 export const WithLeadingIcon: Story = {
   name: 'With Leading Icon',
@@ -105,7 +86,6 @@ export const WithBothIcons: Story = {
     />
   ),
 };
-// ─── Grids ────────────────────────────────────────────────────────────────────
 const ALL_VARIANTS: ButtonVariant[] = [
   'primary',
   'onColor',
@@ -118,23 +98,13 @@ const ALL_STATES: ButtonState[] = ['enabled', 'disabled', 'loading'];
 function VariantsGrid({ size }: { size: ButtonSize }) {
   const { theme } = useTheme();
   return (
-    <View style={{ gap: 16, padding: 16 }}>
+    <View style={styles.container}>
       {ALL_STATES.map((state) => (
-        <View key={state} style={{ gap: 8 }}>
-          <Text
-            style={{
-              fontFamily: typography.fontFamily,
-              fontSize: typography.fontSize.x3,
-              fontWeight: '600',
-              color: theme.content.subtle,
-              textTransform: 'uppercase',
-              letterSpacing: 0.4,
-              marginBottom: 4,
-            }}
-          >
+        <View key={state} style={styles.stateGroup}>
+          <Text style={[styles.stateLabel, { color: theme.content.subtle }]}>
             State: {state}
           </Text>
-          <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+          <View style={styles.rowWrap}>
             {ALL_VARIANTS.map((variant) => (
               <Button
                 key={variant}
@@ -158,3 +128,17 @@ export const AllVariantsCompact: Story = {
   name: 'All Variants × States (Compact)',
   render: () => <VariantsGrid size="compact" />,
 };
+const styles = StyleSheet.create({
+  dummyIcon: { width: 16, height: 16, borderRadius: 8, opacity: 0.7 },
+  container: { gap: 16, padding: 16 },
+  stateGroup: { gap: 8 },
+  stateLabel: {
+    fontFamily: typography.fontFamily,
+    fontSize: typography.fontSize.x3,
+    fontWeight: '600',
+    textTransform: 'uppercase',
+    letterSpacing: 0.4,
+    marginBottom: 4,
+  },
+  rowWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+});
