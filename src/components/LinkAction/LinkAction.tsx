@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { sizing, typography, type ColorTheme } from 'banqi-tokens/rn';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
+import { ArrowTopRight } from 'banqi-icons';
 export type LinkActionSize = 'standard' | 'large';
 export interface LinkActionProps extends Omit<
   PressableProps,
@@ -31,22 +32,7 @@ function getTextColor(
   }
   return onColor ? theme.content.common.onColor : theme.content.accent.primary;
 }
-function ArrowTopRight({ color, size }: { color: string; size: number }) {
-  return (
-    <Text
-      style={{
-        color,
-        fontSize: size * 0.75,
-        lineHeight: size,
-        includeFontPadding: false,
-      }}
-      accessibilityElementsHidden
-      importantForAccessibility="no"
-    >
-      {'↗'}
-    </Text>
-  );
-}
+
 export function LinkAction({
   label,
   size = 'standard',
