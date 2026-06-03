@@ -1,4 +1,5 @@
 import { fileURLToPath } from 'url';
+import { resolve } from 'path';
 import type { StorybookConfig } from '@storybook/react-vite';
 import { mergeConfig } from 'vite';
 
@@ -15,9 +16,20 @@ const config: StorybookConfig = {
           configType === 'PRODUCTION' ? 'production' : 'development'
         ),
       },
+      // Impede o Vite de pré-bundlizar react-native-svg (usa APIs nativas do RN)
+      // e banqi-icons (que a importa como dependência).
+      optimizeDeps: {
+        exclude: ['react-native-svg', 'banqi-icons'],
+      },
       resolve: {
         alias: {
           'react-native': 'react-native-web',
+          // Mapeia react-native-svg para um stub web, evitando codegenNativeComponent
+          // e demais APIs nativas que não existem no ambiente web do Storybook.
+          'react-native-svg': resolve(
+            fileURLToPath(new URL('.', import.meta.url)),
+            'mocks/react-native-svg.tsx'
+          ),
         },
         extensions: [
           '.web.tsx',

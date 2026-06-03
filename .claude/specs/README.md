@@ -26,6 +26,7 @@ divergirem, alinhe os dois — não trate a divergência como detalhe.
 ├─ foundations/
 │  ├─ design-tokens.md              ← escalas de token (tipografia, sizing, raio, sombra…)
 │  ├─ theming.md                    ← ThemeProvider, useTheme, light/dark
+│  ├─ iconography.md                ← banqi-icons: uso, cor via token, tamanhos, a11y
 │  └─ interacao-e-elevacao.md       ← padrões compartilhados (sombra, press, hover, a11y)
 └─ components/
    ├─ _template.md                  ← modelo para specs de novos componentes
@@ -47,6 +48,7 @@ divergirem, alinhe os dois — não trate a divergência como detalhe.
 | Componente | Categoria | Resumo | Spec |
 | --- | --- | --- | --- |
 | `ThemeProvider` / `useTheme` | Fundação | Injeta o tema (claro/escuro) na árvore | [theming](foundations/theming.md) |
+| `banqi-icons` | Fundação | Conjunto de ícones (SVG/RN), cor via token | [iconography](foundations/iconography.md) |
 | `Button` | Ação | Botão com rótulo, 6 variantes, ícones e loading | [button](components/button.md) |
 | `IconButton` | Ação | Botão quadrado somente ícone, 7 variantes | [icon-button](components/icon-button.md) |
 | `LinkAction` | Navegação | Link textual com ícone, suporte on-color | [link-action](components/link-action.md) |

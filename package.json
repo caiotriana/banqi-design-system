@@ -66,6 +66,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
+    "banqi-icons": "portal:../banqi-icons",
     "banqi-tokens": "portal:../banqi-tokens"
   },
   "devDependencies": {

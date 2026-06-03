@@ -5450,6 +5450,7 @@ __metadata:
     "@types/react": "npm:^19.2.0"
     "@types/react-dom": "npm:^19"
     "@types/react-test-renderer": "npm:^19"
+    banqi-icons: "portal:../banqi-icons"
     banqi-tokens: "portal:../banqi-tokens"
     commitlint: "npm:^20.5.0"
     del-cli: "npm:^7.0.0"
@@ -5475,6 +5476,16 @@ __metadata:
     react: "*"
     react-native: "*"
   languageName: unknown
+  linkType: soft
+
+"banqi-icons@portal:../banqi-icons::locator=banqi-design-system%40workspace%3A.":
+  version: 0.0.0-use.local
+  resolution: "banqi-icons@portal:../banqi-icons::locator=banqi-design-system%40workspace%3A."
+  peerDependencies:
+    react: ">=18"
+    react-native: ">=0.70"
+    react-native-svg: ">=13"
+  languageName: node
   linkType: soft
 
 "banqi-tokens@portal:../banqi-tokens::locator=banqi-design-system%40workspace%3A.":

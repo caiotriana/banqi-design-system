@@ -2,16 +2,12 @@ import { useState } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import type { Meta, StoryObj } from '@storybook/react';
 import { typography } from 'banqi-tokens/rn';
+import { Placeholder, Info, Warning, Check, Block } from 'banqi-icons';
 import { Callout } from './Callout';
+import { getCalloutTokens } from './Callout.styles';
 import type { CalloutVariant } from './Callout.types';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
-function PlaceholderIcon({ color = '#191E2F' }: { color?: string }) {
-  return (
-    <View style={[styles.placeholderIcon, { borderColor: color }]}>
-      <Text style={[styles.placeholderText, { color }]}>i</Text>
-    </View>
-  );
-}
+
 const VARIANTS: CalloutVariant[] = [
   'standard',
   'info',
@@ -19,13 +15,26 @@ const VARIANTS: CalloutVariant[] = [
   'attention',
   'critical',
 ];
-const ICON_COLORS: Record<CalloutVariant, string> = {
-  standard: '#191E2F',
-  info: '#1466B8',
-  success: '#1E730D',
-  attention: '#8F5F10',
-  critical: '#CE1732',
+
+const VARIANT_ICONS: Record<
+  CalloutVariant,
+  React.ComponentType<{ size?: number; color?: string }>
+> = {
+  standard: Placeholder,
+  info: Info,
+  success: Check,
+  attention: Warning,
+  critical: Block,
 };
+
+/** Ícone semântico da variante, colorido com o token de texto do Callout. */
+function CalloutIcon({ variant }: { variant: CalloutVariant }) {
+  const { theme } = useTheme();
+  const { textColor } = getCalloutTokens(theme, variant);
+  const Icon = VARIANT_ICONS[variant];
+  return <Icon size={20} color={textColor} />;
+}
+
 const meta: Meta<typeof Callout> = {
   title: 'Components/Callout',
   component: Callout,
@@ -56,20 +65,23 @@ const meta: Meta<typeof Callout> = {
     description: 'Description message with two lines or more.',
   },
 };
+
 export default meta;
 type Story = StoryObj<typeof Callout>;
+
 export const Playground: Story = {
   name: 'Playground',
   render: (args) => (
     <Callout
       {...args}
-      icon={<PlaceholderIcon color={ICON_COLORS[args.variant ?? 'standard']} />}
+      icon={<CalloutIcon variant={args.variant ?? 'standard'} />}
       actionLabel={args.actionLabel}
       onActionPress={() => {}}
       onClose={() => {}}
     />
   ),
 };
+
 function SectionTitle({ text }: { text: string }) {
   const { theme } = useTheme();
   return (
@@ -78,6 +90,7 @@ function SectionTitle({ text }: { text: string }) {
     </Text>
   );
 }
+
 export const AllVariantsWithIcon: Story = {
   name: 'All Variants',
   render: () => (
@@ -89,12 +102,13 @@ export const AllVariantsWithIcon: Story = {
           variant={variant}
           title="Title"
           description="Description message with two lines or more."
-          icon={<PlaceholderIcon color={ICON_COLORS[variant]} />}
+          icon={<CalloutIcon variant={variant} />}
         />
       ))}
     </View>
   ),
 };
+
 export const AllVariantsActionable: Story = {
   name: 'All Variants Actionable',
   render: () => (
@@ -106,7 +120,7 @@ export const AllVariantsActionable: Story = {
           variant={variant}
           title="Title"
           description="Description message with two lines or more."
-          icon={<PlaceholderIcon color={ICON_COLORS[variant]} />}
+          icon={<CalloutIcon variant={variant} />}
           actionLabel="Link"
           onActionPress={() => {}}
         />
@@ -114,6 +128,7 @@ export const AllVariantsActionable: Story = {
     </View>
   ),
 };
+
 export const WithoutTitle: Story = {
   name: 'Without Title',
   render: () => (
@@ -123,12 +138,13 @@ export const WithoutTitle: Story = {
           key={variant}
           variant={variant}
           description="Description message with two lines or more."
-          icon={<PlaceholderIcon color={ICON_COLORS[variant]} />}
+          icon={<CalloutIcon variant={variant} />}
         />
       ))}
     </View>
   ),
 };
+
 export const Closable: Story = {
   name: 'Closable',
   render: () => {
@@ -138,7 +154,7 @@ export const Closable: Story = {
         variant="info"
         title="Informação importante"
         description="Esta mensagem pode ser fechada pelo usuário."
-        icon={<PlaceholderIcon color={ICON_COLORS.info} />}
+        icon={<CalloutIcon variant="info" />}
         onClose={() => setVisible(false)}
       />
     ) : (
@@ -148,6 +164,7 @@ export const Closable: Story = {
     );
   },
 };
+
 export const FullCombo: Story = {
   name: 'Full Combo (Actionable + Closable)',
   render: () => {
@@ -157,7 +174,7 @@ export const FullCombo: Story = {
         variant="critical"
         title="Ação necessária"
         description="Sua conta precisa de verificação para continuar operando."
-        icon={<PlaceholderIcon color={ICON_COLORS.critical} />}
+        icon={<CalloutIcon variant="critical" />}
         actionLabel="Verificar agora"
         onActionPress={() => {}}
         onClose={() => setVisible(false)}
@@ -167,22 +184,9 @@ export const FullCombo: Story = {
     );
   },
 };
+
 const styles = StyleSheet.create({
   decorator: { alignItems: 'flex-start' },
-  placeholderIcon: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  placeholderText: {
-    fontFamily: typography.fontFamily,
-    fontWeight: '700',
-    fontSize: 10,
-    lineHeight: 12,
-  },
   sectionTitle: {
     fontFamily: typography.fontFamily,
     fontSize: typography.fontSize.x3,

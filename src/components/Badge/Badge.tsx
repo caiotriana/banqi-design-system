@@ -2,6 +2,8 @@ import { Text, View } from 'react-native';
 import { useTheme } from '../ThemeProvider/ThemeProvider';
 import { getBadgeTokens, baseStyles } from './Badge.styles';
 import type { BadgeProps } from './Badge.types';
+import { StatusDot } from 'banqi-icons';
+
 export function Badge({
   label,
   variant = 'neutral',
@@ -24,13 +26,7 @@ export function Badge({
         { backgroundColor: tokens.bg },
       ]}
     >
-      {showDot && (
-        <View style={baseStyles.dotContainer}>
-          <View
-            style={[baseStyles.dot, { backgroundColor: tokens.dotColor }]}
-          />
-        </View>
-      )}
+      {showDot && <StatusDot size={16} color={tokens.dotColor} />}
       <Text
         style={[baseStyles.label, { color: tokens.textColor }]}
         numberOfLines={1}
